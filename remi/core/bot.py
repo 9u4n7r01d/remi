@@ -1,9 +1,4 @@
-import os
-import sys
-
-import hikari
 import lightbulb
-from lightbulb import commands, context
 
 from remi.core.config import Config
 
