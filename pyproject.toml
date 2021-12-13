@@ -11,7 +11,7 @@ hikari = {extras = ["speedups"], version = "^2.0.0-alpha.104"}
 hikari-lightbulb = "^2.1.0"
 uvloop = "^0.16.0"
 python-dotenv = "^0.19.2"
-loguru = "^0.5.3"
+rich = "^10.16.0"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.16.0"
