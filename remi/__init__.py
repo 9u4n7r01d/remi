@@ -9,7 +9,7 @@ __version__ = "0.1.0"
 logging.basicConfig(
     level="INFO",
     format="%(message)s",
-    handlers=[RichHandler(rich_tracebacks=True, show_time=True, log_time_format="%Y %m %d %H %M %S")],
+    handlers=[RichHandler(rich_tracebacks=True, show_time=True, log_time_format="%y/%m/%d %H:%M:%S")],
 )
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
