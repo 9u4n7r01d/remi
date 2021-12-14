@@ -4,7 +4,7 @@ from remi.core.config import Config
 
 
 # Get our bot instance
-bot = lightbulb.BotApp(token=Config.token, prefix=Config.prefix)
+bot = lightbulb.BotApp(token=Config.token, prefix=Config.prefix, banner=None)
 
 
 # Set up some listener for events. In the future we might do some fancy async or DB that needs
