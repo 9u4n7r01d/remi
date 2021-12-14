@@ -1,36 +1,45 @@
 import hikari
 import logging
 import datetime
+from tzlocal import get_localzone
+from remi.util.embed_typing import EmbedDict
 
 
-def embed_from_dict(data: dict) -> hikari.Embed:
+def add_local_timezone(timestamp: datetime.datetime) -> datetime.datetime:
+    """Get the local timezone to be added a datetime object"""
+    return timestamp.replace(tzinfo=get_localzone())
+
+
+def create_embed_from_dict(data: EmbedDict, suppress_tz_warning=True) -> hikari.Embed:
     """
-    Construct a hikari.Embed object from a dictionary. This can be done by hikari.Embed(**kwargs),
-    however, due to embed fields being added in separately, code will be repeated/-duplicated.
-
-    TODO: Change this to use `dataclass` or similar instead of `dict` for type-checking
-
-    For structure, refer to docs/embed_dict.md
-    :param dict data: The `dict` to construct the embed.
+    Create an embed without using post-init .set() methods. Creating an embed using this will
+    manually tack in a local timezone with a small warning, instead of a giant wall of text
+    from `hikari`
+    :param EmbedDict data: The data needed to construct the embed
+    :param bool suppress_tz_warning: Prevent a logging.warning() call from this function
     :return: A `hikari.Embed` object
     """
-    # Isolate various fields that need its own method to set
-    author = data.pop("author", None)
-    footer = data.pop("footer", None)
-    thumbnail = data.pop("thumbnail", None)
-    image = data.pop("image", None)
-    fields = data.pop("fields", None)
+    # Convert to a regular dict to keep PyCharm happy
+    data_dict = dict(data)
 
-    # Safety net for timezones
-    if not data["timestamp"].tzinfo:
-        local_timezone = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
-        logging.warning(
-            "An embed without timezone (TZ) has been detected! Setting local TZ as embed's TZ."
-        )
-        data["timestamp"] = data["timestamp"].replace(tzinfo=local_timezone)
+    # Isolate fields that need their own initialization methods
+    author = data_dict.pop("author", None)
+    footer = data_dict.pop("footer", None)
+    fields = data_dict.pop("fields", None)
+    thumbnail = data_dict.pop("thumbnail", None)
+    image = data_dict.pop("image", None)
 
-    # Construct the embed
-    embed = hikari.Embed(**data)
+    # Final sanity check for timezone
+    if not data_dict["timestamp"].tzinfo:
+        data_dict["timestamp"] = add_local_timezone(data_dict["timestamp"])
+
+        if not suppress_tz_warning:
+            logging.warning(
+                "An embed with timestamp was constructed with timezone data. Applying local timezone."
+            )
+
+    # Create the embed
+    embed = hikari.Embed(**data_dict)
 
     if author:
         embed.set_author(**author)

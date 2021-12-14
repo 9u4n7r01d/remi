@@ -1,8 +1,8 @@
 from random import randint, choices, uniform
 import string
 import hikari
-
-from remi.util.embed import embed_from_dict
+import pytest
+from remi.util.embed import create_embed_from_dict, EmbedDict, add_local_timezone
 import datetime
 
 START_OF_TIME = -62135536000.0  # datetime.datetime(1,1,2,0,0,0)
@@ -21,15 +21,16 @@ def randbool():
     return randint(0, 1) == 1
 
 
-def test_identical():
+def embed_test(include_timezone):
     """Test if embed_from_dict() is generating embeds correctly"""
     # Generate kwargs-able embed parameter with random data
     title, description, url = [randstr(10, 50) for _ in range(3)]
     color = randint(0x000000, 0xFFFFFF)
-    timezone = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
-    timestamp = datetime.datetime.fromtimestamp(uniform(START_OF_TIME, END_OF_TIME)).replace(
-        tzinfo=timezone
-    )
+    timestamp = datetime.datetime.fromtimestamp(uniform(START_OF_TIME, END_OF_TIME))
+
+    # We run two tests: with timezone data and without
+    if include_timezone:
+        timestamp = add_local_timezone(timestamp)
 
     # Create the embed and dictionary to prepare for fields
     embed_explicit = hikari.Embed(
@@ -81,6 +82,18 @@ def test_identical():
         )
 
     # Generate the embed automatically to compare
-    embed_implicit = embed_from_dict(data_dict)
+    embed_implicit = create_embed_from_dict(EmbedDict(**data_dict))
 
     assert embed_implicit == embed_explicit
+
+
+@pytest.mark.repeat(5)
+def test_with_tz():
+    embed_test(include_timezone=True)
+
+
+@pytest.mark.repeat(5)
+@pytest.mark.filterwarnings("ignore")
+def test_without_tz():
+    # This test is going to throw warnings about timezone. Let's not have it spill onto the terminal
+    embed_test(include_timezone=False)
