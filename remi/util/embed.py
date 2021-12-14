@@ -10,13 +10,12 @@ def add_local_timezone(timestamp: datetime.datetime) -> datetime.datetime:
     return timestamp.replace(tzinfo=get_localzone())
 
 
-def create_embed_from_dict(data: EmbedDict, suppress_tz_warning=True) -> hikari.Embed:
+def create_embed_from_dict(data: EmbedDict) -> hikari.Embed:
     """
     Create an embed without using post-init .set() methods. Creating an embed using this will
     manually tack in a local timezone with a small warning, instead of a giant wall of text
     from `hikari`
     :param EmbedDict data: The data needed to construct the embed
-    :param bool suppress_tz_warning: Prevent a logging.warning() call from this function
     :return: A `hikari.Embed` object
     """
     # Convert to a regular dict to keep PyCharm happy
@@ -30,16 +29,17 @@ def create_embed_from_dict(data: EmbedDict, suppress_tz_warning=True) -> hikari.
     image = data_dict.pop("image", None)
 
     # Final sanity check for timezone
-    if not data_dict["timestamp"].tzinfo:
-        data_dict["timestamp"] = add_local_timezone(data_dict["timestamp"])
+    timestamp = data_dict.pop("timestamp", None)
+    if not timestamp:
+        timestamp = datetime.datetime.now()
+        logging.debug("Timestamp not found. Adding timestamp.")
 
-        if not suppress_tz_warning:
-            logging.warning(
-                "An embed with timestamp was constructed with timezone data. Applying local timezone."
-            )
+    if not timestamp.tzinfo:
+        timestamp = add_local_timezone(timestamp)
+        logging.debug("No timezone data found. Applying local timezone.")
 
     # Create the embed
-    embed = hikari.Embed(**data_dict)
+    embed = hikari.Embed(**data_dict, timestamp=timestamp)
 
     if author:
         embed.set_author(**author)
