@@ -18,18 +18,15 @@ def create_embed_from_dict(data: EmbedDict) -> hikari.Embed:
     :param EmbedDict data: The data needed to construct the embed
     :return: A `hikari.Embed` object
     """
-    # Convert to a regular dict to keep PyCharm happy
-    data_dict = dict(data)
-
     # Isolate fields that need their own initialization methods
-    author = data_dict.pop("author", None)
-    footer = data_dict.pop("footer", None)
-    fields = data_dict.pop("fields", None)
-    thumbnail = data_dict.pop("thumbnail", None)
-    image = data_dict.pop("image", None)
+    author = data.pop("author", None)
+    footer = data.pop("footer", None)
+    fields = data.pop("fields", None)
+    thumbnail = data.pop("thumbnail", None)
+    image = data.pop("image", None)
 
     # Final sanity check for timezone
-    timestamp = data_dict.pop("timestamp", None)
+    timestamp = data.pop("timestamp", None)
     if not timestamp:
         timestamp = datetime.datetime.now()
         logging.debug("Timestamp not found. Adding timestamp.")
@@ -39,7 +36,7 @@ def create_embed_from_dict(data: EmbedDict) -> hikari.Embed:
         logging.debug("No timezone data found. Applying local timezone.")
 
     # Create the embed
-    embed = hikari.Embed(**data_dict, timestamp=timestamp)
+    embed = hikari.Embed(**data, timestamp=timestamp)
 
     if author:
         embed.set_author(**author)
