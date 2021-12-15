@@ -22,3 +22,7 @@ async def on_stopping(_) -> None:
 @bot.listen(hikari.StartedEvent)
 async def on_started(_) -> None:
     pass
+
+
+# Load these by default
+bot.load_extensions("remi.core.commands.core")
