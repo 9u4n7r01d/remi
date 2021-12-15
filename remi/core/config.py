@@ -8,4 +8,4 @@ load_dotenv()
 
 class Config:
     token: Final[str] = os.getenv("TOKEN")
-    prefix: Final[str] = "op!"
+    prefix: Final[str] = os.getenv("BOT_PREFIX")
