@@ -4,6 +4,7 @@ import datetime
 from tzlocal import get_localzone
 from remi.util.typing import EmbedDict, EmbedField
 from remi.res.resource import Resource
+from typing import Optional
 
 
 def add_local_timezone(timestamp: datetime.datetime) -> datetime.datetime:
@@ -54,14 +55,14 @@ def create_embed_from_dict(data: EmbedDict) -> hikari.Embed:
 
 
 def create_failure_embed(
-    title: str = "Something went wrong!",
-    description: str = "Traceback is available in terminal.",
-    fields: list[EmbedField] = None,
+    title: Optional[str] = None,
+    description: Optional[str] = None,
+    fields: Optional[list[EmbedField]] = None,
 ) -> hikari.Embed:
     """Generate a minimal failure embed"""
     template_embed = EmbedDict(
-        title=title,
-        description=description,
+        title=title or "Something went wrong!",
+        description=description or "Full traceback in terminal.",
         thumbnail=Resource.FAILURE_ICON,
         fields=fields,
         color=0xED254E,
@@ -70,11 +71,13 @@ def create_failure_embed(
 
 
 def create_success_embed(
-    title: str = "Success!", description: str = None, fields: list[EmbedField] = None
+    title: Optional[str] = None,
+    description: Optional[str] = None,
+    fields: Optional[list[EmbedField]] = None,
 ) -> hikari.Embed:
     """Generate a minimal success embed"""
     template_embed = EmbedDict(
-        title=title,
+        title=title or "Success",
         description=description,
         thumbnail=Resource.SUCCESS_ICON,
         fields=fields,
