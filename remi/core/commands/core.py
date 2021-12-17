@@ -1,7 +1,7 @@
 import hikari
 import lightbulb
 from lightbulb import commands, context
-from remi.util.embed import EmbedDict, create_embed_from_dict
+from remi.util.embed import create_success_embed
 from remi.res.resource import Resource
 
 # Plugin definition and boilerplate
@@ -22,15 +22,14 @@ def unload(bot: lightbulb.BotApp) -> None:
 @lightbulb.command(name="ping", description="Ping the bot. Dirty way to ensure it's online.")
 @lightbulb.implements(commands.SlashCommand, commands.PrefixCommand)
 async def core_ping(ctx: context.Context):
-    embed_response = EmbedDict(
+    embed_response = create_success_embed(
         title="**Success!**",
         description="Bot is (hopefully) still alive!",
-        thumbnail=Resource.SUCCESS_ICON,
         fields=[
             {"name": "Heartbeat latency", "value": f"{core.app.heartbeat_latency * 1000:.2f}ms"}
         ],
     )
-    await ctx.respond(embed=create_embed_from_dict(embed_response))
+    await ctx.respond(embed=embed_response)
 
 
 @core.command
