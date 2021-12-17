@@ -2,7 +2,7 @@ import hikari
 import logging
 import datetime
 from tzlocal import get_localzone
-from remi.util.embed_typing import EmbedDict
+from remi.util.typing import EmbedDict
 
 
 def add_local_timezone(timestamp: datetime.datetime) -> datetime.datetime:

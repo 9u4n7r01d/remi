@@ -1,2 +1,2 @@
 from .embed import *
-from .embed_typing import *
+from .typing import *
