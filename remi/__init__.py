@@ -3,6 +3,9 @@ __version__ = "0.1.0"
 
 import logging
 from rich.logging import RichHandler
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Set up logging
 logging.basicConfig(
