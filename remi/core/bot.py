@@ -26,3 +26,4 @@ async def on_started(_) -> None:
 
 # Load these by default
 bot.load_extensions("remi.core.commands.core")
+bot.load_extensions("remi.core.commands.ext_manager")
