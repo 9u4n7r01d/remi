@@ -13,39 +13,34 @@ It's scary, yes; I have to reimplement some features I take for granted from `Re
 
 As for why `lightbulb`, it's a coin flip.
 
-## Development
-This repo uses [`pre-commit`](https://github.com/pre-commit/pre-commit) and [`poetry`](https://github.com/python-poetry/poetry), and Python `3.10.x` for workflow, and `black` for code style.
-
-### Reminder that...
-- Lint your code before you commit! `pre-commit` should handle this already, but just in case!
-- If you're abstracting something complex, do write tests to ensure it doesn't subtly mess things up and/or fail.
-
-### Instruction
-
-1. Clone the repository
-```bash
+## Instruction
+### Installation
+```shell
 git clone https://github.com/PythonTryHard/remi
-```
-
-2. Install all dependencies and pre-commit hooks
-```bash
 cd remi
-poetry shell
-poetry install
+echo "TOKEN=''\nBOT_PREFIX=''" > .env
+# Edit .env with your bot's token and desirable prefix
+
+# For normal usage
+poetry install --no-dev
+
+# For development
+poetry install  
 pre-commit install
 ```
+### Usage
+```
+$ remi --help
+Usage: remi [OPTIONS]
 
-3. Specify a `.env` file with the following data
-```bash
-TOKEN=''   # Your bot's token goes here
-PREFIX=''  # Your bot's prefix goes here
+Options:
+  -v, --verbose  Increase verbosity (can be stacked).
+  --help         Show this message and exit.
 ```
 
-4. Run with
-```bash
-python -m remi
-```
-at repository's root since this repo utilizes some relative path magic that will subtly fail.
+## Contribution
+All contributions are welcomed, whether issues, PRs, or even typo corrections.
+
 
 ## Attribution
 - `/remi/res/*`: [Flaticon's UIcon](https://www.flaticon.com/uicons)
