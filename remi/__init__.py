@@ -1,4 +1,4 @@
-__name__ = "operator"
+__name__ = "remi"
 __version__ = "0.1.0"
 
 import logging
