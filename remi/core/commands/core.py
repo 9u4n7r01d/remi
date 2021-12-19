@@ -1,8 +1,9 @@
 import hikari
 import lightbulb
 from lightbulb import commands, context
-from remi.util.embed import create_success_embed
+
 from remi.res.resource import Resource
+from remi.util.embed import create_success_embed
 
 # Plugin definition and boilerplate
 core = lightbulb.Plugin("Core")

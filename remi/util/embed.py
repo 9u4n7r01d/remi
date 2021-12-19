@@ -1,10 +1,12 @@
-import hikari
-import logging
 import datetime
-from tzlocal import get_localzone
-from remi.util.typing import EmbedDict, EmbedField
-from remi.res.resource import Resource
+import logging
 from typing import Optional
+
+import hikari
+from tzlocal import get_localzone
+
+from remi.res.resource import Resource
+from remi.util.typing import EmbedDict, EmbedField
 
 
 def add_local_timezone(timestamp: datetime.datetime) -> datetime.datetime:

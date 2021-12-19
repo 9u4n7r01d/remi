@@ -1,9 +1,10 @@
+from functools import partial
+
 import hikari
 import lightbulb
 from lightbulb import commands, context
-from remi.util.embed import create_success_embed, create_failure_embed
-from functools import partial
 
+from remi.util.embed import create_failure_embed, create_success_embed
 
 # Plugin definition and boilerplate
 ext_manager_plugin = lightbulb.Plugin("Cog")

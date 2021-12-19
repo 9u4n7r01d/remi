@@ -1,8 +1,7 @@
-from typing import Optional, Any, Iterable
 import datetime
-from hikari import colors, files
-from typing import TypedDict
+from typing import Any, Iterable, Optional, TypedDict
 
+from hikari import colors, files
 
 """
 All classes are marked total=False so checkers won't raise warnings for incomplete initialization,

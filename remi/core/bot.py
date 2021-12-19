@@ -1,7 +1,7 @@
 import hikari
 import lightbulb
-from remi.core.config import Config
 
+from remi.core.config import Config
 
 # Get our bot instance
 bot = lightbulb.BotApp(token=Config.token, prefix=Config.prefix, banner=None)

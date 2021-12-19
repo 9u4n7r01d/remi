@@ -1,7 +1,8 @@
-from remi.core import bot
+import logging
 
 import click
-import logging
+
+from remi.core import bot
 
 
 @click.command()
