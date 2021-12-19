@@ -9,7 +9,6 @@ load_dotenv()
 
 # Set up logging
 logging.basicConfig(
-    level="INFO",
     format="%(message)s",
     handlers=[
         RichHandler(rich_tracebacks=True, show_time=True, log_time_format="%y/%m/%d %H:%M:%S")
