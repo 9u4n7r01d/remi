@@ -1,4 +1,5 @@
 import logging
+import os
 
 import click
 
@@ -19,6 +20,12 @@ def main(verbose: int) -> None:
 
     # Set root logger's logging level
     logging.getLogger().setLevel(logging_level)
+
+    # Use uvloop if we're not on Windows
+    if os.name != "nt":
+        import uvloop
+
+        uvloop.install()
 
     bot.run()
 
