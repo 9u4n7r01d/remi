@@ -62,7 +62,7 @@ else:
             _logging_level = 0  # NOTSET
             _loguru_level_padding = 12
 
-    # Remove the default handler and replace it with our customizable one, and start logging
+    # Remove the default handler and replace it with our customizable one
     _logger.remove()
 
     _log_format = (
@@ -72,4 +72,9 @@ else:
     )
 
     _logger.add(_sys.stderr, format=_log_format, level=_logging_level)
+
+    # Custom levels for loguru
+    _logger.level(name="TRACE_HIKARI", no=5, color="<m><b>")
+
+    # Start logging
     _logging.basicConfig(handlers=[_InterceptHandler()], level=_logging_level)
