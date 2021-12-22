@@ -96,7 +96,7 @@ async def core_extman_load(ctx: context.Context) -> None:
 )
 @lightbulb.command(name="unload", description="Unload extension(s).")
 @lightbulb.implements(commands.SlashSubCommand, commands.PrefixSubCommand)
-async def core_extman_load(ctx: context.Context) -> None:
+async def core_extman_unload(ctx: context.Context) -> None:
     for cog in ctx.options.cogs:
         ext_manager_plugin.app.unload_extensions(cog)
 
@@ -118,7 +118,7 @@ async def core_extman_load(ctx: context.Context) -> None:
 )
 @lightbulb.command(name="reload", description="Reload extension(s).")
 @lightbulb.implements(commands.SlashSubCommand, commands.PrefixSubCommand)
-async def core_extman_load(ctx: context.Context) -> None:
+async def core_extman_reload(ctx: context.Context) -> None:
     for cog in ctx.options.cogs:
         ext_manager_plugin.app.reload_extensions(cog)
 
