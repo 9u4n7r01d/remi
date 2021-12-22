@@ -8,4 +8,8 @@ if os.sys != "nt":
     uvloop.install()
 
 
-bot.run()
+def main():
+    bot.run()
+
+
+main()
