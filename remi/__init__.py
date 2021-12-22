@@ -36,6 +36,7 @@ class _InterceptHandler(_logging.Handler):
 # the context, and manual labor to exit if `--help`
 @_click.command()
 @_click.option("-v", "--verbose", help="Increase verbosity (can be stacked).", count=True)
+@_click.option("-f", "--file", help="Enable writing log files (rotated at midnight)", is_flag=True)
 @_click.pass_context
 def get_click_context(ctx, *args, **kwargs):
     return ctx
@@ -71,7 +72,11 @@ else:
         "<c>{name}</>:<c>{function}</>:<c>{line}</> - <lvl>{message}</>"
     )
 
+    # Loguru handlers
     _logger.add(_sys.stderr, format=_log_format, level=_logging_level)
+
+    if _ctx.params["file"]:
+        _logger.add("remi.log", rotation="00:00", format=_log_format, level=_logging_level)
 
     # Custom levels for loguru
     _logger.level(name="TRACE_HIKARI", no=5, color="<m><b>")
