@@ -33,11 +33,11 @@ def create_embed_from_dict(data: EmbedDict) -> hikari.Embed:
     timestamp = data.pop("timestamp", None)
     if not timestamp:
         timestamp = datetime.datetime.now()
-        logging.debug("Timestamp not found. Adding timestamp.")
+        logging.debug("Timestamp for embed not found. Adding timestamp.")
 
     if not timestamp.tzinfo:
         timestamp = add_local_timezone(timestamp)
-        logging.debug("No timezone data found. Applying local timezone.")
+        logging.debug("No timezone data found in timestamp. Applying local timezone.")
 
     # Create the embed
     embed = hikari.Embed(**data, timestamp=timestamp)
