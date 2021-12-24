@@ -12,4 +12,5 @@ def main():
     bot.run()
 
 
-main()
+if __name__ == "__main__":
+    main()
