@@ -5,7 +5,7 @@ from lightbulb import commands, context
 from remi.util.embed import create_success_embed
 
 # Plugin definition and boilerplate
-core = lightbulb.Plugin("Core")
+core = lightbulb.Plugin("Core", description="Remi's core commands")
 core.add_checks(lightbulb.checks.owner_only)
 
 
