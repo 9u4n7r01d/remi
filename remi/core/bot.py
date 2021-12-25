@@ -2,9 +2,12 @@ import hikari
 import lightbulb
 
 from remi.core.config import Config
+from remi.core.help_command import HelpCommand
 
 # Get our bot instance
-bot = lightbulb.BotApp(token=Config.token, prefix=Config.prefix, banner=None)
+bot = lightbulb.BotApp(
+    token=Config.token, prefix=Config.prefix, banner=None, help_class=HelpCommand
+)
 
 
 # Set up some listener for events. In the future we might do some fancy async or DB that needs
