@@ -7,6 +7,7 @@ from lightbulb import commands, context, plugins
 from lightbulb.help_command import filter_commands
 from lightbulb.utils import ButtonNavigator, EmbedPaginator
 
+from remi.res import Resource
 from remi.util.embed import create_embed_from_dict
 
 
@@ -38,6 +39,7 @@ class HelpCommand(lightbulb.BaseHelpCommand):
             "description": page_content,
             "color": 0x7CB7FF,
             "footer": {"text": "Auto-generated"},
+            "thumbnail": Resource.HELP_ICON,
         }
         return create_embed_from_dict(embed_dict)
 
