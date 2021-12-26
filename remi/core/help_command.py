@@ -45,8 +45,12 @@ class HelpCommand(lightbulb.BaseHelpCommand):
         }
         return create_embed_from_dict(embed_dict)
 
-    async def send_bot_help(self, ctx: context.Context) -> None:
-        """Default help message when `[p]help` is called without arguments"""
+    async def send_bot_help(self, ctx: context.Context, plugin: plugins.Plugin = None) -> None:
+        """
+        Default help message when `[p]help` is called without arguments
+
+        Doubles as `[p]help plugin` when `plugin` is supplied
+        """
         # Prepare the embed
         help_embed = EmbedPaginator(
             max_lines=self.EMBED_PAG_MAX_LINE, max_chars=self.EMBED_PAG_MAX_CHAR
@@ -54,8 +58,16 @@ class HelpCommand(lightbulb.BaseHelpCommand):
         help_embed.set_embed_factory(self._build_bot_help_embed)
 
         # Build the embed
-        for _, plugin in self.bot.plugins.items():
+        if not plugin:  # No plugin specified
+            plugins_ = self.bot.plugins.values()
+        else:
+            plugins_ = [plugin]
+
+        for plugin in plugins_:
             [help_embed.add_line(line) for line in await self._gather_command_helps(plugin, ctx)]
 
         navigator = ButtonNavigator(help_embed.build_pages())
         await navigator.run(ctx)
+
+    async def send_plugin_help(self, ctx: context.base.Context, plugin: plugins.Plugin) -> None:
+        await self.send_bot_help(ctx, plugin)
