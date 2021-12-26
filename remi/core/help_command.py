@@ -9,6 +9,9 @@ from remi.util.embed import create_embed_from_dict
 
 
 class HelpCommand(lightbulb.BaseHelpCommand):
+    EMBED_PAG_MAX_LINE = 30
+    EMBED_PAG_MAX_CHAR = 1024
+
     @staticmethod
     async def _gather_commands(plugin: plugins.Plugin, ctx: context.Context):
         """Recursively gather all unique commands of a cog and description"""
@@ -39,7 +42,9 @@ class HelpCommand(lightbulb.BaseHelpCommand):
     async def send_bot_help(self, ctx: context.Context) -> None:
         """Default help message when `[p]help` is called without arguments"""
         # Prepare the embed
-        help_embed = EmbedPaginator(max_lines=30, max_chars=1024)
+        help_embed = EmbedPaginator(
+            max_lines=self.EMBED_PAG_MAX_LINE, max_chars=self.EMBED_PAG_MAX_CHAR
+        )
         help_embed.set_embed_factory(self._build_bot_help_embed)
 
         # Build the embed
