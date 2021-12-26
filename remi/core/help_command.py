@@ -35,7 +35,7 @@ class HelpCommand(lightbulb.BaseHelpCommand):
         return help_lines
 
     @staticmethod
-    def _build_bot_help_embed(page_index: int, page_content: str):
+    def _build_bot_help_embed(page_index: int, page_content: str) -> hikari.Embed:
         embed_dict = {
             "title": "**Available commands**",
             "description": page_content,
