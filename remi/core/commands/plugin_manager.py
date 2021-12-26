@@ -75,12 +75,12 @@ async def plg_man(ctx: context.Context) -> None:
 @lightbulb.command(name="load", description="Load plugin(s).")
 @lightbulb.implements(commands.SlashSubCommand, commands.PrefixSubCommand)
 async def plg_man_load(ctx: context.Context) -> None:
-    for cog in ctx.options.cogs:
-        plugin_manager.app.load_extensions(cog)
+    plugins = ctx.options.plugins
+    plugin_manager.app.load_extensions(*plugins)
 
     resp = create_success_embed(
-        title=f"Successfully loaded {len(ctx.options.cogs)} plugin(s)",
-        description="\n".join([f"`+ {cog}`" for cog in ctx.options.cogs]),
+        title=f"Successfully loaded {len(plugins)} plugin(s)",
+        description="\n".join([f"`+ {plugin}`" for plugin in plugins]),
     )
 
     await ctx.respond(embed=resp)
@@ -97,12 +97,12 @@ async def plg_man_load(ctx: context.Context) -> None:
 @lightbulb.command(name="unload", description="Unload plugin(s).")
 @lightbulb.implements(commands.SlashSubCommand, commands.PrefixSubCommand)
 async def plg_man_unload(ctx: context.Context) -> None:
-    for cog in ctx.options.cogs:
-        plugin_manager.app.unload_extensions(cog)
+    plugins = ctx.options.plugins
+    plugin_manager.app.unload_extensions(*plugins)
 
     resp = create_success_embed(
-        title=f"Successfully unloaded {len(ctx.options.cogs)} plugin(s)",
-        description="\n".join([f"`+ {cog}`" for cog in ctx.options.cogs]),
+        title=f"Successfully unloaded {len(plugins)} plugin(s)",
+        description="\n".join([f"`+ {plugin}`" for plugin in plugins]),
     )
 
     await ctx.respond(embed=resp)
@@ -119,12 +119,12 @@ async def plg_man_unload(ctx: context.Context) -> None:
 @lightbulb.command(name="reload", description="Reload plugin(s).")
 @lightbulb.implements(commands.SlashSubCommand, commands.PrefixSubCommand)
 async def plg_man_reload(ctx: context.Context) -> None:
-    for cog in ctx.options.cogs:
-        plugin_manager.app.reload_extensions(cog)
+    plugins = ctx.options.plugins
+    plugin_manager.app.reload_extensions(*plugins)
 
     resp = create_success_embed(
-        title=f"Successfully reloaded {len(ctx.options.cogs)} plugin(s)",
-        description="\n".join([f"`+ {cog}`" for cog in ctx.options.cogs]),
+        title=f"Successfully reloaded {len(plugins)} plugin(s)",
+        description="\n".join([f"`+ {plugin}`" for plugin in plugins]),
     )
 
     await ctx.respond(embed=resp)
