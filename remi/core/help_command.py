@@ -13,8 +13,9 @@ class HelpCommand(lightbulb.BaseHelpCommand):
     EMBED_PAG_MAX_CHAR = 1024
 
     @staticmethod
-    async def _gather_commands(plugin: plugins.Plugin, ctx: context.Context):
-        """Recursively gather all unique commands of a cog and description"""
+    async def _gather_command_helps(plugin: plugins.Plugin, ctx: context.Context) -> list[str]:
+        """Generate help for `[p]help` and `[p]help plugin`"""
+        # Get all unique commands and generate their help
         unique_commands = set()
 
         for cmd in await filter_commands(plugin.all_commands, ctx):
@@ -26,7 +27,12 @@ class HelpCommand(lightbulb.BaseHelpCommand):
 
             unique_commands.add(help_line)
 
-        return unique_commands
+        # Prepare the help lines for EmbedPaginator.add_line()
+        help_lines = list(unique_commands)
+        help_lines.insert(0, f"__**{plugin.name}** - *{plugin.description}*__")
+        help_lines.append("")
+
+        return help_lines
 
     @staticmethod
     def _build_bot_help_embed(page_index: int, page_content: str):
@@ -48,10 +54,8 @@ class HelpCommand(lightbulb.BaseHelpCommand):
         help_embed.set_embed_factory(self._build_bot_help_embed)
 
         # Build the embed
-        for name, plugin in self.bot.plugins.items():
-            help_embed.add_line(f"__**{name}** - *{plugin.description}*__")
-            [help_embed.add_line(line) for line in await self._gather_commands(plugin, ctx)]
-            help_embed.add_line("")
+        for _, plugin in self.bot.plugins.items():
+            [help_embed.add_line(line) for line in await self._gather_command_helps(plugin, ctx)]
 
         navigator = ButtonNavigator(help_embed.build_pages())
         await navigator.run(ctx)
