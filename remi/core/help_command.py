@@ -74,3 +74,40 @@ class HelpCommand(lightbulb.BaseHelpCommand):
 
     async def send_plugin_help(self, ctx: context.base.Context, plugin: plugins.Plugin) -> None:
         await self.send_bot_help(ctx, plugin)
+
+    async def send_command_help(self, ctx: context.Context, command: commands.Command) -> None:
+        # Do not send help if author does not have sufficient permissions
+        if not await filter_commands([command], ctx):
+            return
+
+        help_embed = create_embed_from_dict(
+            {
+                "title": f"Help for `{command.qualname}`",
+                "description": f"*{command.description}*",
+                "color": 0x7CB7FF,
+                "footer": {"text": "Auto-generated"},
+                "thumbnail": Resource.HELP_ICON,
+                "fields": [
+                    {
+                        "name": "__Syntax__",
+                        "value": f"`{command.signature}`",
+                        "inline": True,
+                    },
+                    {
+                        "name": "__Arguments__",
+                        "value": "\n".join(
+                            [
+                                f"\N{BULLET} `{name}` - {opt.description}"
+                                for name, opt in command.options.items()
+                            ]
+                        ),
+                    },
+                    {
+                        "name": "__Note__",
+                        "value": f"{command.get_help(ctx) or '*None*'}",
+                    },
+                ],
+            }
+        )
+
+        await ctx.respond(embed=help_embed)
