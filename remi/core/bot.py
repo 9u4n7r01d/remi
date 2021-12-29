@@ -6,7 +6,11 @@ from remi.core.help_command import HelpCommand
 
 # Get our bot instance
 bot = lightbulb.BotApp(
-    token=Config.token, prefix=Config.prefix, banner=None, help_class=HelpCommand
+    token=Config.token,
+    prefix=Config.prefix,
+    banner=None,
+    help_class=HelpCommand,
+    owner_ids=Config.owner_ids,
 )
 
 

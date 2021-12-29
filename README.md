@@ -18,8 +18,6 @@ As for why `lightbulb`, it's a coin flip.
 ```shell
 git clone https://github.com/PythonTryHard/remi
 cd remi
-echo "TOKEN=''\nBOT_PREFIX=''" > .env
-# Edit .env with your bot's token and desirable prefix
 
 # For normal usage
 poetry install --no-dev
@@ -28,6 +26,16 @@ poetry install --no-dev
 poetry install  
 pre-commit install
 ```
+### Setting up
+In the repository root, edit `.env.example` then rename it to `.env`. Example:
+```shell
+TOKEN='Your token goes here'
+BOT_PREFIX='op!'
+OWNER_IDS=31415,92653,58979,32385
+```
+- `TOKEN`: Your bot's token, obtained from [Discord Developer Dashboard](https://discord.com/developers).
+- `BOT_PREFIX`: Your preferred prefix for your bot.
+- `OWNER_IDS`: Comma-separated Discord user IDs. Those assigned will have full access to the bot's functionality. Use with care.
 ### Usage
 ```
 $ remi --help
