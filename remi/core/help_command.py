@@ -1,3 +1,5 @@
+from typing import Union
+
 import hikari
 import lightbulb
 from lightbulb import commands, context, plugins
@@ -6,6 +8,13 @@ from lightbulb.utils import ButtonNavigator, EmbedPaginator
 
 from remi.res import Resource
 from remi.util.embed import create_embed_from_dict
+
+LightbulbCommandGroup = Union[
+    commands.PrefixCommandGroup,
+    commands.PrefixSubGroup,
+    commands.SlashCommandGroup,
+    commands.SlashSubGroup,
+]
 
 
 class HelpCommand(lightbulb.BaseHelpCommand):
@@ -106,6 +115,43 @@ class HelpCommand(lightbulb.BaseHelpCommand):
                         "name": "__Note__",
                         "value": f"{command.get_help(ctx) or '*None*'}",
                     },
+                ],
+            }
+        )
+
+        await ctx.respond(embed=help_embed)
+
+    # noinspection PyTypeChecker
+    @staticmethod
+    async def _gather_group_help(group: LightbulbCommandGroup, ctx: context.Context, level=0):
+        """Recursively gather a group's command"""
+        lines = []
+        for cmd in await filter_commands(group.subcommands.values(), ctx):
+            match cmd:
+                case commands.PrefixSubCommand() | commands.SlashSubCommand():
+                    lines.append(f"{'  ' * level}\N{BULLET} `{cmd.name}` - {cmd.description}")
+                case commands.PrefixCommandGroup() | commands.SlashSubGroup():
+                    await HelpCommand._gather_group_help(cmd, ctx, level=level + 1)
+
+        return lines
+
+    async def send_group_help(self, ctx: context.Context, group: LightbulbCommandGroup) -> None:
+        # Do not send help if author does not have sufficient permissions
+        if not await filter_commands([group], ctx):
+            return
+
+        help_embed = create_embed_from_dict(
+            {
+                "title": f"Help for command group `{group.name}`",
+                "description": f"*{group.description}*",
+                "color": 0x7CB7FF,
+                "footer": {"text": "Auto-generated"},
+                "thumbnail": Resource.HELP_ICON,
+                "fields": [
+                    {
+                        "name": "All subcommands",
+                        "value": "\n".join(await self._gather_group_help(group, ctx)),
+                    }
                 ],
             }
         )
