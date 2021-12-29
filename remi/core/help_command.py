@@ -32,6 +32,9 @@ class HelpCommand(lightbulb.BaseHelpCommand):
         help_lines.insert(0, f"__**{plugin.name}** - *{plugin.description}*__")
         help_lines.append("")
 
+        if not unique_commands:  # Author has no access to all commands of plugin
+            help_lines.insert(1, "None")
+
         return help_lines
 
     @staticmethod
