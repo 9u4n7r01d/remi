@@ -64,67 +64,56 @@ async def plg_man(ctx: context.Context) -> None:
     pass
 
 
+# noinspection PyUnboundLocalVariable
+async def plg_man_handler(ctx: context.Context, operation: str):
+    """Handler for all plugin-related operation"""
+    target_plugins = ctx.options.plugins
+    resp = create_success_embed(
+        title=f"Successfully {operation}ed {len(target_plugins)} plugins",
+        description="\n".join([f"\N{BULLET} `{plugin}`" for plugin in target_plugins]),
+    )
+
+    match operation:
+        case "LOAD":
+            plugin_manager.app.load_extensions(*target_plugins)
+
+        case "UNLOAD":
+            plugin_manager.app.unload_extensions(*target_plugins)
+
+        case "RELOAD":
+            plugin_manager.app.reload_extensions(*target_plugins)
+
+    await ctx.respond(embed=resp)
+
+
+_COMMAND_OPTION = {
+    "name": "plugins",
+    "type": str,
+    "required": True,
+    "modifier": commands.OptionModifier.GREEDY,
+}
+_COMMAND_IMPLEMENT = [commands.SlashSubCommand, commands.PrefixSubCommand]
+
+
 @plg_man.child
-@lightbulb.option(
-    name="plugins",
-    description="The plugin(s)'s import path to load",
-    type=str,
-    required=True,
-    modifier=commands.OptionModifier.GREEDY,
-)
+@lightbulb.option(description="The plugin(s)'s import path to load", **_COMMAND_OPTION)
 @lightbulb.command(name="load", description="Load plugin(s).")
-@lightbulb.implements(commands.SlashSubCommand, commands.PrefixSubCommand)
+@lightbulb.implements(*_COMMAND_IMPLEMENT)
 async def plg_man_load(ctx: context.Context) -> None:
-    plugins = ctx.options.plugins
-    plugin_manager.app.load_extensions(*plugins)
-
-    resp = create_success_embed(
-        title=f"Successfully loaded {len(plugins)} plugin(s)",
-        description="\n".join([f"`+ {plugin}`" for plugin in plugins]),
-    )
-
-    await ctx.respond(embed=resp)
+    await plg_man_handler(ctx, "LOAD")
 
 
 @plg_man.child
-@lightbulb.option(
-    name="plugins",
-    description="The plugin(s)'s import path to load",
-    type=str,
-    required=True,
-    modifier=commands.OptionModifier.GREEDY,
-)
+@lightbulb.option(description="The plugin(s)'s import path to unload", **_COMMAND_OPTION)
 @lightbulb.command(name="unload", description="Unload plugin(s).")
-@lightbulb.implements(commands.SlashSubCommand, commands.PrefixSubCommand)
+@lightbulb.implements(*_COMMAND_IMPLEMENT)
 async def plg_man_unload(ctx: context.Context) -> None:
-    plugins = ctx.options.plugins
-    plugin_manager.app.unload_extensions(*plugins)
-
-    resp = create_success_embed(
-        title=f"Successfully unloaded {len(plugins)} plugin(s)",
-        description="\n".join([f"`+ {plugin}`" for plugin in plugins]),
-    )
-
-    await ctx.respond(embed=resp)
+    await plg_man_handler(ctx, "UNLOAD")
 
 
 @plg_man.child
-@lightbulb.option(
-    name="plugins",
-    description="The plugin(s)'s import path to load",
-    type=str,
-    required=True,
-    modifier=commands.OptionModifier.GREEDY,
-)
+@lightbulb.option(description="The plugin(s)'s import path to reload", **_COMMAND_OPTION)
 @lightbulb.command(name="reload", description="Reload plugin(s).")
-@lightbulb.implements(commands.SlashSubCommand, commands.PrefixSubCommand)
+@lightbulb.implements(*_COMMAND_IMPLEMENT)
 async def plg_man_reload(ctx: context.Context) -> None:
-    plugins = ctx.options.plugins
-    plugin_manager.app.reload_extensions(*plugins)
-
-    resp = create_success_embed(
-        title=f"Successfully reloaded {len(plugins)} plugin(s)",
-        description="\n".join([f"`+ {plugin}`" for plugin in plugins]),
-    )
-
-    await ctx.respond(embed=resp)
+    await plg_man_handler(ctx, "RELOAD")
