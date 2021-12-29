@@ -43,6 +43,7 @@ Usage: remi [OPTIONS]
 
 Options:
   -v, --verbose  Increase verbosity (can be stacked).
+  -f, --file     Enable writing log files (rotated at midnight)
   --help         Show this message and exit.
 ```
 
