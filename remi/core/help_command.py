@@ -20,6 +20,7 @@ LightbulbCommandGroup = Union[
 class HelpCommand(lightbulb.BaseHelpCommand):
     EMBED_PAG_MAX_LINE = 30
     EMBED_PAG_MAX_CHAR = 1024
+    EMBED_COLOR = 0x7CB7FF
 
     @staticmethod
     async def _gather_command_helps(plugin: plugins.Plugin, ctx: context.Context) -> list[str]:
@@ -46,12 +47,11 @@ class HelpCommand(lightbulb.BaseHelpCommand):
 
         return help_lines
 
-    @staticmethod
-    def _build_bot_help_embed(page_index: int, page_content: str) -> hikari.Embed:
+    def _build_bot_help_embed(self, page_index: int, page_content: str) -> hikari.Embed:
         embed_dict = {
             "title": "**Available commands**",
             "description": page_content,
-            "color": 0x7CB7FF,
+            "color": self.EMBED_COLOR,
             "footer": {"text": "Auto-generated"},
             "thumbnail": Resource.HELP_ICON,
         }
@@ -93,7 +93,7 @@ class HelpCommand(lightbulb.BaseHelpCommand):
             {
                 "title": f"Help for `{command.qualname}`",
                 "description": f"*{command.description}*",
-                "color": 0x7CB7FF,
+                "color": self.EMBED_COLOR,
                 "footer": {"text": "Auto-generated"},
                 "thumbnail": Resource.HELP_ICON,
                 "fields": [
@@ -144,7 +144,7 @@ class HelpCommand(lightbulb.BaseHelpCommand):
             {
                 "title": f"Help for command group `{group.name}`",
                 "description": f"*{group.description}*",
-                "color": 0x7CB7FF,
+                "color": self.EMBED_COLOR,
                 "footer": {"text": "Auto-generated"},
                 "thumbnail": Resource.HELP_ICON,
                 "fields": [
