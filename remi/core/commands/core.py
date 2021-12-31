@@ -6,7 +6,6 @@ from remi.util.embed import create_success_embed
 
 # Plugin definition and boilerplate
 core = lightbulb.Plugin("Core", description="Remi's core commands")
-core.add_checks(lightbulb.checks.owner_only)
 
 
 def load(bot: lightbulb.BotApp) -> None:
@@ -33,6 +32,7 @@ async def core_ping(ctx: context.Context):
 
 
 @core.command
+@lightbulb.add_checks(lightbulb.checks.owner_only)
 @lightbulb.command(name="shutdown", description="Shutdown the bot.")
 @lightbulb.implements(commands.SlashCommand, commands.PrefixCommand)
 async def core_shutdown(ctx: context.Context):
