@@ -86,7 +86,7 @@ async def plg_man_handler(ctx: context.Context, operation: str):
     await ctx.respond(embed=resp)
 
 
-_COMMAND_OPTION = {
+_OPTION_KWARGS = {
     "name": "plugins",
     "type": str,
     "required": True,
@@ -96,7 +96,7 @@ _COMMAND_IMPLEMENT = [commands.SlashSubCommand, commands.PrefixSubCommand]
 
 
 @plg_man.child
-@lightbulb.option(description="The plugin(s)'s import path to load", **_COMMAND_OPTION)
+@lightbulb.option(description="The plugin(s)'s import path to load", **_OPTION_KWARGS)
 @lightbulb.command(name="load", description="Load plugin(s).", inherit_checks=True)
 @lightbulb.implements(*_COMMAND_IMPLEMENT)
 async def plg_man_load(ctx: context.Context) -> None:
@@ -104,7 +104,7 @@ async def plg_man_load(ctx: context.Context) -> None:
 
 
 @plg_man.child
-@lightbulb.option(description="The plugin(s)'s import path to unload", **_COMMAND_OPTION)
+@lightbulb.option(description="The plugin(s)'s import path to unload", **_OPTION_KWARGS)
 @lightbulb.command(name="unload", description="Unload plugin(s).", inherit_checks=True)
 @lightbulb.implements(*_COMMAND_IMPLEMENT)
 async def plg_man_unload(ctx: context.Context) -> None:
@@ -112,7 +112,7 @@ async def plg_man_unload(ctx: context.Context) -> None:
 
 
 @plg_man.child
-@lightbulb.option(description="The plugin(s)'s import path to reload", **_COMMAND_OPTION)
+@lightbulb.option(description="The plugin(s)'s import path to reload", **_OPTION_KWARGS)
 @lightbulb.command(name="reload", description="Reload plugin(s).", inherit_checks=True)
 @lightbulb.implements(*_COMMAND_IMPLEMENT)
 async def plg_man_reload(ctx: context.Context) -> None:
