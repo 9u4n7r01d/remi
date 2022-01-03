@@ -64,7 +64,6 @@ async def plg_man(ctx: context.Context) -> None:
     pass
 
 
-# noinspection PyUnboundLocalVariable
 async def plg_man_handler(ctx: context.Context, operation: str):
     """Handler for all plugin-related operation"""
     target_plugins = ctx.options.plugins
