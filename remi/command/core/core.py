@@ -2,6 +2,7 @@ import hikari
 import lightbulb
 from lightbulb import commands, context
 
+from remi.core.constant import Global
 from remi.util.embed import create_success_embed
 
 # Plugin definition and boilerplate
@@ -19,7 +20,7 @@ def unload(bot: lightbulb.BotApp) -> None:
 # Commands
 @core.command
 @lightbulb.command(name="ping", description="Ping the bot. Dirty way to ensure it's online.")
-@lightbulb.implements(commands.SlashCommand, commands.PrefixCommand)
+@lightbulb.implements(*Global.implements)
 async def core_ping(ctx: context.Context):
     embed_response = create_success_embed(
         title="**Success!**",
@@ -34,7 +35,7 @@ async def core_ping(ctx: context.Context):
 @core.command
 @lightbulb.add_checks(lightbulb.checks.owner_only)
 @lightbulb.command(name="shutdown", description="Shutdown the bot.")
-@lightbulb.implements(commands.SlashCommand, commands.PrefixCommand)
+@lightbulb.implements(*Global.implements)
 async def core_shutdown(ctx: context.Context):
     await ctx.respond("Shutting down...")
     await core.bot.close()

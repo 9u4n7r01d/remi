@@ -2,6 +2,8 @@ import logging
 import os
 from typing import Final
 
+from lightbulb import commands
+
 
 def parse_owner_ids():
     try:
@@ -11,7 +13,8 @@ def parse_owner_ids():
         return ()
 
 
-class Config:
+class Global:
     token: Final[str] = os.getenv("TOKEN")
     prefix: Final[str] = os.getenv("BOT_PREFIX")
     owner_ids: Final[tuple[int]] = parse_owner_ids()
+    implements: Final = [commands.SlashSubCommand, commands.PrefixSubCommand]

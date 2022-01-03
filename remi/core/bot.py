@@ -1,16 +1,16 @@
 import hikari
 import lightbulb
 
-from remi.core.config import Config
+from remi.core.constant import Global
 from remi.core.help_command import HelpCommand
 
 # Get our bot instance
 bot = lightbulb.BotApp(
-    token=Config.token,
-    prefix=Config.prefix,
+    token=Global.token,
+    prefix=Global.prefix,
     banner=None,
     help_class=HelpCommand,
-    owner_ids=Config.owner_ids,
+    owner_ids=Global.owner_ids,
 )
 
 
