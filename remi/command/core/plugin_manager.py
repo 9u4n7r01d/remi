@@ -60,7 +60,7 @@ async def on_cog_command_error(event: lightbulb.CommandErrorEvent) -> bool:
 # Commands
 @plugin_manager.command
 @lightbulb.command(name="plugin", description="Manage hot-(un)loading of plugins.")
-@lightbulb.implements(*Global.implements)
+@lightbulb.implements(*Global.group_implements)
 async def plg_man(ctx: context.Context) -> None:
     pass
 
@@ -97,7 +97,7 @@ _OPTION_KWARGS = {
 @plg_man.child
 @lightbulb.option(description="The plugin(s)'s import path to load", **_OPTION_KWARGS)
 @lightbulb.command(name="load", description="Load plugin(s).", inherit_checks=True)
-@lightbulb.implements(*Global.implements)
+@lightbulb.implements(*Global.sub_implements)
 async def plg_man_load(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "LOAD")
 
@@ -105,7 +105,7 @@ async def plg_man_load(ctx: context.Context) -> None:
 @plg_man.child
 @lightbulb.option(description="The plugin(s)'s import path to unload", **_OPTION_KWARGS)
 @lightbulb.command(name="unload", description="Unload plugin(s).", inherit_checks=True)
-@lightbulb.implements(*Global.implements)
+@lightbulb.implements(*Global.sub_implements)
 async def plg_man_unload(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "UNLOAD")
 
@@ -113,6 +113,6 @@ async def plg_man_unload(ctx: context.Context) -> None:
 @plg_man.child
 @lightbulb.option(description="The plugin(s)'s import path to reload", **_OPTION_KWARGS)
 @lightbulb.command(name="reload", description="Reload plugin(s).", inherit_checks=True)
-@lightbulb.implements(*Global.implements)
+@lightbulb.implements(*Global.sub_implements)
 async def plg_man_reload(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "RELOAD")

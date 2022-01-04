@@ -17,4 +17,6 @@ class Global:
     token: Final[str] = os.getenv("TOKEN")
     prefix: Final[str] = os.getenv("BOT_PREFIX")
     owner_ids: Final[tuple[int]] = parse_owner_ids()
-    implements: Final = [commands.SlashSubCommand, commands.PrefixSubCommand]
+    implements: Final = [commands.SlashCommand, commands.PrefixCommand]
+    group_implements: Final = [commands.SlashCommandGroup, commands.PrefixCommandGroup]
+    sub_implements: Final = [commands.SlashSubCommand, commands.PrefixSubCommand]
