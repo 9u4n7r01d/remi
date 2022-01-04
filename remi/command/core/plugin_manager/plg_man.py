@@ -5,6 +5,7 @@ import lightbulb
 from lightbulb import commands, context
 
 from remi.core.constant import Global
+from remi.core.exceptions import ProtectedPlugin
 from remi.util.embed import create_failure_embed, create_success_embed
 
 # Plugin definition and boilerplate
@@ -17,7 +18,7 @@ def load(bot: lightbulb.BotApp) -> None:
 
 
 def unload(bot: lightbulb.BotApp) -> None:
-    bot.remove_plugin(plugin_manager)
+    raise ProtectedPlugin(f"Cannot unload protected plugin {plg_man.name}!")
 
 
 # Error handler
@@ -45,6 +46,8 @@ async def on_cog_command_error(event: lightbulb.CommandErrorEvent) -> bool:
         case lightbulb.ExtensionMissingUnload():
             resp = failure_template(description="Ensure unload() is present in the plugin.")
 
+        case ProtectedPlugin():
+            resp = failure_template(description="This plugin is critical to the bot's operation!")
         # Default case for everything not handled.
         case _:
             resp = create_failure_embed(

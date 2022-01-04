@@ -3,6 +3,7 @@ import lightbulb
 from lightbulb import commands, context
 
 from remi.core.constant import Global
+from remi.core.exceptions import ProtectedPlugin
 from remi.util.embed import create_success_embed
 
 # Plugin definition and boilerplate
@@ -14,7 +15,7 @@ def load(bot: lightbulb.BotApp) -> None:
 
 
 def unload(bot: lightbulb.BotApp) -> None:
-    bot.remove_plugin(core)
+    raise ProtectedPlugin(f"Cannot unload protected plugin `{core.name}`!")
 
 
 # Commands
