@@ -5,6 +5,7 @@ import lightbulb
 import loguru
 from lightbulb import commands, context
 
+from remi.core.constant import Global
 from remi.core.exceptions import ProtectedPlugin
 from remi.util.embed import create_embed_from_dict
 
@@ -28,7 +29,7 @@ def _get_owner(ctx: context.Context):
 
 @about.command
 @lightbulb.command(name="about", description="About the bot.")
-@lightbulb.implements(commands.SlashCommand, commands.PrefixCommand)
+@lightbulb.implements(*Global.command_implements)
 async def core_about(ctx: context.Context):
     owner = _get_owner(ctx)
     author = "https://github.com/PythonTryHard"

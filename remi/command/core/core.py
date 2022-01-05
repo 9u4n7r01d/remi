@@ -21,7 +21,7 @@ def unload(bot: lightbulb.BotApp) -> None:
 # Commands
 @core.command
 @lightbulb.command(name="ping", description="Ping the bot. Dirty way to ensure it's online.")
-@lightbulb.implements(*Global.implements)
+@lightbulb.implements(*Global.command_implements)
 async def core_ping(ctx: context.Context):
     embed_response = create_success_embed(
         title="**Success!**",
@@ -36,7 +36,7 @@ async def core_ping(ctx: context.Context):
 @core.command
 @lightbulb.add_checks(lightbulb.checks.owner_only)
 @lightbulb.command(name="shutdown", description="Shutdown the bot.")
-@lightbulb.implements(*Global.implements)
+@lightbulb.implements(*Global.command_implements)
 async def core_shutdown(ctx: context.Context):
     await ctx.respond("Shutting down...")
     await core.bot.close()
