@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import Final
+from typing import Final, Tuple
 
 from lightbulb import commands
 
@@ -16,7 +16,7 @@ def parse_owner_ids():
 class Global:
     token: Final[str] = os.getenv("TOKEN")
     prefix: Final[str] = os.getenv("BOT_PREFIX")
-    owner_ids: Final[tuple[int]] = parse_owner_ids()
+    owner_ids: Final[Tuple[int]] = parse_owner_ids()
     command_implements: Final = [commands.SlashCommand, commands.PrefixCommand]
     group_implements: Final = [commands.SlashCommandGroup, commands.PrefixCommandGroup]
     sub_implements: Final = [commands.SlashSubCommand, commands.PrefixSubCommand]
