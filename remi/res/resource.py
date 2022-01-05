@@ -1,7 +1,7 @@
-from pathlib import Path
+from importlib import resources
 
 
 class Resource:
-    SUCCESS_ICON = Path("remi/res/png/success.png")
-    FAILURE_ICON = Path("remi/res/png/failure.png")
-    HELP_ICON = Path("remi/res/png/help.png")
+    SUCCESS_ICON = resources.path("remi.res.png", "success.png")
+    FAILURE_ICON = resources.path("remi.res.png", "failure.png")
+    HELP_ICON = resources.path("remi.res.png", "help.png")
