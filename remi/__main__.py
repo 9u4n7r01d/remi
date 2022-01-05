@@ -1,6 +1,6 @@
 import os
 
-from remi.core import bot
+from remi.core.bot import bot
 
 if os.sys != "nt":
     import uvloop

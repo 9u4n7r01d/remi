@@ -1,3 +1,3 @@
-from .about import *
-from .core import *
-from .plugin_manager import *
+from .about import about
+from .core import core
+from .plugin_manager import plg_man

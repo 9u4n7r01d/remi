@@ -1,2 +1,2 @@
-from .bot import *
 from .constant import *
+from .exceptions import *
