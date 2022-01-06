@@ -77,10 +77,6 @@ async def plg_man(ctx: context.Context) -> None:
 async def plg_man_handler(ctx: context.Context, operation: str):
     """Handler for all plugin-related operation"""
     target_plugins = ctx.options.plugins
-    resp = create_success_embed(
-        title=f"Successfully {operation.lower()}ed {len(target_plugins)} plugins",
-        description="\n".join([f"\N{BULLET} `{plugin}`" for plugin in target_plugins]),
-    )
 
     match operation:
         case "LOAD":
@@ -92,6 +88,10 @@ async def plg_man_handler(ctx: context.Context, operation: str):
         case "RELOAD":
             plugin_manager.app.reload_extensions(*target_plugins)
 
+    resp = create_success_embed(
+        title=f"Successfully {operation.lower()}ed {len(target_plugins)} plugins",
+        description="\n".join([f"\N{BULLET} `{plugin}`" for plugin in target_plugins]),
+    )
     await ctx.respond(embed=resp)
 
 
