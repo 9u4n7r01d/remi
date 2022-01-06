@@ -1,1 +1,1 @@
-from .plg_man import load, plg_man, unload
+from .plg_man import load, plugin_manager, unload
