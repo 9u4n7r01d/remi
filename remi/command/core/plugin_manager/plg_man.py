@@ -6,7 +6,13 @@ from lightbulb import commands, context
 
 from remi.core.constant import Global
 from remi.core.exceptions import ProtectedPlugin
-from remi.util.embed import create_failure_embed, create_success_embed
+from remi.util.embed import (
+    create_embed_from_dict,
+    create_failure_embed,
+    create_success_embed,
+)
+
+from .scanner import _get_all_plugin_info
 
 # Plugin definition and boilerplate
 plugin_manager = lightbulb.Plugin("Plugin Manager", description="Manage Remi's plugins")
@@ -119,3 +125,40 @@ async def plg_man_unload(ctx: context.Context) -> None:
 @lightbulb.implements(*Global.sub_implements)
 async def plg_man_reload(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "RELOAD")
+
+
+@plg_man.child
+@lightbulb.command(
+    name="list", description="List available plugins and status.", inherit_checks=True
+)
+@lightbulb.implements(*Global.sub_implements)
+async def plg_man_list(ctx: context.Context) -> None:
+    plugin_mapping_all = _get_all_plugin_info()
+
+    # Build plugin listing and status for each plugin category
+    embed_text = []
+    for category, mapping in plugin_mapping_all.items():
+        listing_template = "`[{status}]` **{name}** - {description}"
+
+        category_listing = []
+        for plugin_name, info_object in mapping.items():
+            category_listing.append(
+                listing_template.format(
+                    status="x" if info_object.load_path in ctx.bot.extensions else " ",
+                    name=plugin_name,
+                    description=info_object.description,
+                )
+            )
+
+        embed_text.append(f"**{category}**\n" + "\n".join(category_listing))
+
+    resp_embed = create_embed_from_dict(
+        {
+            "title": "Available plugins",
+            "description": "\n".join(embed_text),
+            "footer": {"text": "[x] means loaded, otherwise [ ]"},
+            "color": 0x7CB7FF,
+        }
+    )
+
+    await ctx.respond(embed=resp_embed)
