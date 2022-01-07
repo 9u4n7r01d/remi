@@ -4,3 +4,5 @@
 .vscode
 .idea
 todo.txt
+*.log
+patches/
