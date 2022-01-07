@@ -1,4 +1,5 @@
 import importlib
+import sys
 from dataclasses import dataclass
 
 import lightbulb
@@ -14,6 +15,10 @@ class PluginInfo:
 
 
 def _scan_plugin(plugin_package: str) -> dict[str, PluginInfo]:
+    # Back up sys.modules, as importlib.import_module() will import the package and register to
+    # sys.module, causing issues with lightbulb.bot.BotApp.load_extensions() and unload_extensions()
+    old = sys.modules.copy()
+
     package = importlib.import_module(plugin_package)
     alias_mapping = {}
 
@@ -23,6 +28,10 @@ def _scan_plugin(plugin_package: str) -> dict[str, PluginInfo]:
             alias_mapping[attr.name] = PluginInfo(
                 load_path=f"{plugin_package}.{attr_str}", description=attr.description
             )
+
+    # Restore the old sys.module
+    sys.modules = old
+
     return alias_mapping
 
 
