@@ -43,7 +43,8 @@ async def on_cog_command_error(event: lightbulb.CommandErrorEvent) -> bool:
         case lightbulb.ExtensionAlreadyLoaded():
             resp = failure_template(description="Plugin is already loaded.")
 
-        case lightbulb.ExtensionNotLoaded():
+        # BUG: As of hikari-lightbulb v2.1.3, reloading an unloaded extension raises KeyError.
+        case lightbulb.ExtensionNotLoaded(), KeyError():
             resp = failure_template(description="Plugin is not loaded.")
 
         case lightbulb.ExtensionMissingLoad():
