@@ -12,7 +12,7 @@ from remi.util.embed import (
     create_success_embed,
 )
 
-from .scanner import _get_all_plugin_info
+from .scanner import _get_all_plugin_info, _get_all_plugin_name_mapping
 
 # Plugin definition and boilerplate
 plugin_manager = lightbulb.Plugin("Plugin Manager", description="Manage Remi's plugins")
@@ -54,6 +54,7 @@ async def on_cog_command_error(event: lightbulb.CommandErrorEvent) -> bool:
 
         case ProtectedPlugin():
             resp = failure_template(description="This plugin is critical to the bot's operation!")
+
         # Default case for everything not handled.
         case _:
             resp = create_failure_embed(
@@ -76,30 +77,34 @@ async def plg_man(ctx: context.Context) -> None:
 
 async def plg_man_handler(ctx: context.Context, operation: str):
     """Handler for all plugin-related operation"""
-    target_plugins = ctx.options.plugins
+    target_plugin = ctx.options.plugin
+
+    if target_plugin not in (mapping := _get_all_plugin_name_mapping()):
+        raise lightbulb.ExtensionNotFound(f"No extension by the name {target_plugin!r} was found.")
+    else:
+        load_path = mapping[target_plugin]
 
     match operation:
         case "LOAD":
-            plugin_manager.app.load_extensions(*target_plugins)
+            plugin_manager.app.load_extensions(load_path)
 
         case "UNLOAD":
-            plugin_manager.app.unload_extensions(*target_plugins)
+            plugin_manager.app.unload_extensions(load_path)
 
         case "RELOAD":
-            plugin_manager.app.reload_extensions(*target_plugins)
+            plugin_manager.app.reload_extensions(load_path)
 
     resp = create_success_embed(
-        title=f"Successfully {operation.lower()}ed {len(target_plugins)} plugins",
-        description="\n".join([f"\N{BULLET} `{plugin}`" for plugin in target_plugins]),
+        title=f"Successfully {operation.lower()}ed plugins `{target_plugin}`",
     )
     await ctx.respond(embed=resp)
 
 
 _OPTION_KWARGS = {
-    "name": "plugins",
+    "name": "plugin",
     "type": str,
     "required": True,
-    "modifier": commands.OptionModifier.GREEDY,
+    "modifier": commands.OptionModifier.CONSUME_REST,
 }
 
 

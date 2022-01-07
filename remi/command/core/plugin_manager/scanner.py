@@ -44,3 +44,11 @@ def _get_all_plugin_info() -> dict[str, dict[str, PluginInfo]]:
     plugin_mapping["Bundled"] = _scan_plugin(_BUNDLED_COMMAND_PACKAGE)
 
     return plugin_mapping
+
+
+def _get_all_plugin_name_mapping() -> dict[str, str]:
+    """Get only all plugin's name-load path mapping"""
+    mapping = _scan_plugin(_CORE_COMMAND_PACKAGE) | _scan_plugin(_BUNDLED_COMMAND_PACKAGE)
+    mapping = {name: info_object.load_path for name, info_object in mapping.items()}
+
+    return mapping
