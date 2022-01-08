@@ -12,7 +12,7 @@ from remi.util.embed import (
     create_success_embed,
 )
 
-from .scanner import _get_all_plugin_info, _get_all_plugin_name_mapping
+from .plg_scan import _get_all_plugin_info, _get_all_plugin_name_mapping
 
 # Plugin definition and boilerplate
 plugin_manager = lightbulb.Plugin("Plugin Manager", description="Manage Remi's plugins")
