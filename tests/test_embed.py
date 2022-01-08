@@ -35,9 +35,7 @@ def embed_test(include_timezone):
         timestamp = add_local_timezone(timestamp)
 
     # Create the embed and dictionary to prepare for fields
-    embed_explicit = hikari.Embed(
-        title=title, description=description, url=url, color=color, timestamp=timestamp
-    )
+    embed_explicit = hikari.Embed(title=title, description=description, url=url, color=color, timestamp=timestamp)
     data_dict = {
         "title": title,
         "description": description,
@@ -79,9 +77,7 @@ def embed_test(include_timezone):
         if "fields" not in data_dict.keys():
             data_dict["fields"] = []  # Work-around for tests
 
-        data_dict["fields"].append(
-            {"name": field_name, "value": field_value, "inline": field_inline}
-        )
+        data_dict["fields"].append({"name": field_name, "value": field_value, "inline": field_inline})
 
     # Generate the embed automatically to compare
     embed_implicit = create_embed_from_dict(EmbedDict(**data_dict))

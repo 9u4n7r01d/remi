@@ -26,9 +26,7 @@ async def core_ping(ctx: context.Context):
     embed_response = create_success_embed(
         title="**Success!**",
         description="Bot is (hopefully) still alive!",
-        fields=[
-            {"name": "Heartbeat latency", "value": f"{core.app.heartbeat_latency * 1000:.2f}ms"}
-        ],
+        fields=[{"name": "Heartbeat latency", "value": f"{core.app.heartbeat_latency * 1000:.2f}ms"}],
     )
     await ctx.respond(embed=embed_response)
 

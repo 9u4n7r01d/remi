@@ -58,9 +58,7 @@ async def on_cog_command_error(event: lightbulb.CommandErrorEvent) -> bool:
 
         # Default case for everything not handled.
         case _:
-            resp = create_failure_embed(
-                f"Unhandled `{type(exception).__name__}` raised in `{__name__}`!"
-            )
+            resp = create_failure_embed(f"Unhandled `{type(exception).__name__}` raised in `{__name__}`!")
             await event.context.respond(embed=resp)
             return False
 
@@ -134,9 +132,7 @@ async def plg_man_reload(ctx: context.Context) -> None:
 
 
 @plg_man.child
-@lightbulb.command(
-    name="list", description="List available plugins and status.", inherit_checks=True
-)
+@lightbulb.command(name="list", description="List available plugins and status.", inherit_checks=True)
 @lightbulb.implements(*Global.sub_implements)
 async def plg_man_list(ctx: context.Context) -> None:
     plugin_mapping_all = _get_all_plugin_info()

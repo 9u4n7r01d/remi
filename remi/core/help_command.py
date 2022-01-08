@@ -64,9 +64,7 @@ class HelpCommand(lightbulb.BaseHelpCommand):
         Doubles as `[p]help plugin` when `plugin` is supplied
         """
         # Prepare the embed
-        help_embed = EmbedPaginator(
-            max_lines=self.EMBED_PAG_MAX_LINE, max_chars=self.EMBED_PAG_MAX_CHAR
-        )
+        help_embed = EmbedPaginator(max_lines=self.EMBED_PAG_MAX_LINE, max_chars=self.EMBED_PAG_MAX_CHAR)
         help_embed.set_embed_factory(self._build_bot_help_embed)
 
         # Build the embed
@@ -105,10 +103,7 @@ class HelpCommand(lightbulb.BaseHelpCommand):
                     {
                         "name": "__Arguments__",
                         "value": "\n".join(
-                            [
-                                f"\N{BULLET} `{name}` - {opt.description}"
-                                for name, opt in command.options.items()
-                            ]
+                            [f"\N{BULLET} `{name}` - {opt.description}" for name, opt in command.options.items()]
                         ),
                     },
                     {

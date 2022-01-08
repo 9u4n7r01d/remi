@@ -45,10 +45,7 @@ async def core_about(ctx: context.Context):
                 {
                     "name": "Built on",
                     "value": "\n".join(
-                        [
-                            f"\N{BULLET} {i.__name__} v{i.__version__}"
-                            for i in (hikari, lightbulb, loguru)
-                        ]
+                        [f"\N{BULLET} {i.__name__} v{i.__version__}" for i in (hikari, lightbulb, loguru)]
                     ),
                     "inline": True,
                 },
