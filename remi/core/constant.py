@@ -16,9 +16,13 @@ def parse_owner_ids():
 
 @dataclass(frozen=True)
 class Global:
-    token: Final[str] = os.getenv("TOKEN")
-    prefix: Final[str] = os.getenv("BOT_PREFIX")
-    owner_ids: Final[Tuple[int]] = parse_owner_ids()
     command_implements: Final = (commands.SlashCommand, commands.PrefixCommand)
     group_implements: Final = (commands.SlashCommandGroup, commands.PrefixCommandGroup)
     sub_implements: Final = (commands.SlashSubCommand, commands.PrefixSubCommand)
+
+
+@dataclass(frozen=True)
+class Client:
+    token: Final[str] = os.getenv("TOKEN")
+    prefix: Final[str] = os.getenv("BOT_PREFIX")
+    owner_ids: Final[Tuple[int]] = parse_owner_ids()
