@@ -1,2 +1,2 @@
-from .constant import *
+from .constant import Client, Global
 from .exceptions import *

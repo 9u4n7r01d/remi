@@ -9,7 +9,7 @@ from remi.res.resource import Resource
 from remi.util.typing import EmbedDict, EmbedField
 
 
-def add_local_timezone(timestamp: datetime.datetime) -> datetime.datetime:
+def _add_local_timezone(timestamp: datetime.datetime) -> datetime.datetime:
     """Get the local timezone to be added a datetime object"""
     return timestamp.replace(tzinfo=get_localzone())
 
