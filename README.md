@@ -26,16 +26,21 @@ poetry install --no-dev
 poetry install  
 pre-commit install
 ```
+
 ### Setting up
 In the repository root, edit `.env.example` then rename it to `.env`. Example:
 ```shell
 TOKEN='Your token goes here'
 BOT_PREFIX='op!'
 OWNER_IDS=31415,92653,58979,32385
+CONFIG_DIR=
 ```
+
 - `TOKEN`: Your bot's token, obtained from [Discord Developer Dashboard](https://discord.com/developers).
 - `BOT_PREFIX`: Your preferred prefix for your bot.
-- `OWNER_IDS`: Comma-separated Discord user IDs. Those assigned will have full access to the bot's functionality. Use with care.
+- `OWNER_IDS`: Comma-separated Discord user IDs. Those assigned will have full access to the bot's functionalities. Use with care.
+- `CONFIG_DIR`: Location to store your bot's various configuration files.
+
 ### Usage
 ```
 $ remi --help
@@ -49,7 +54,6 @@ Options:
 
 ## Contribution
 All contributions are welcomed, whether issues, PRs, or even typo corrections.
-
 
 ## Attribution
 - `/remi/res/*`: [Flaticon's UIcon](https://www.flaticon.com/uicons)
