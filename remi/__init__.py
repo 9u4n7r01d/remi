@@ -31,9 +31,9 @@ class _InterceptHandler(_logging.Handler):
 
 # Voodoo magic from StackOverflow to make click work from __init__.py
 #
-# Somehow, if chucked inside __init__, the usual click syntax fails if defined and called here.
-# Debugging shows that click exits due to standalone mode being True. So let's do some magic to get
-# the context, and manual labor to exit if `--help`
+# Somehow, if chucked inside __init__, the usual click syntax fails Debugging shows that click exits
+# due to standalone mode being True. So let's do some magic to get the context, and manual labor to
+# exit if `--help`
 @_click.command()
 @_click.option("-v", "--verbose", help="Increase verbosity (can be stacked).", count=True)
 @_click.option("-f", "--file", help="Enable writing log files (rotated at midnight)", is_flag=True)
