@@ -6,7 +6,6 @@ from remi.core.constant import Global
 from remi.core.exceptions import ProtectedPlugin
 from remi.util.embed import create_success_embed
 
-# Plugin definition and boilerplate
 core = lightbulb.Plugin("Core", description="Remi's core commands")
 
 
@@ -18,7 +17,6 @@ def unload(bot: lightbulb.BotApp) -> None:
     raise ProtectedPlugin(f"Cannot unload protected plugin `{core.name}`!")
 
 
-# Commands
 @core.command
 @lightbulb.command(name="ping", description="Ping the bot. Dirty way to ensure it's online.")
 @lightbulb.implements(*Global.command_implements)

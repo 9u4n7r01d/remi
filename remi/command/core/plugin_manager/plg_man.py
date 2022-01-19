@@ -14,7 +14,6 @@ from remi.util.embed import (
 
 from .plg_scan import _get_all_plugin_info, _get_all_plugin_name_mapping
 
-# Plugin definition and boilerplate
 plugin_manager = lightbulb.Plugin("Plugin Manager", description="Manage Remi's plugins")
 plugin_manager.add_checks(lightbulb.checks.owner_only)
 
@@ -27,7 +26,6 @@ def unload(bot: lightbulb.BotApp) -> None:
     raise ProtectedPlugin(f"Cannot unload protected plugin {plg_man.name}!")
 
 
-# Error handler
 @plugin_manager.set_error_handler
 async def on_cog_command_error(event: lightbulb.CommandErrorEvent) -> bool:
     # Unpack the exception since we're going do it anyway
@@ -66,7 +64,6 @@ async def on_cog_command_error(event: lightbulb.CommandErrorEvent) -> bool:
     return True
 
 
-# Commands
 @plugin_manager.command
 @lightbulb.command(name="plugin", description="Manage hot-(un)loading of plugins.")
 @lightbulb.implements(*Global.group_implements)
