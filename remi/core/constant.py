@@ -17,11 +17,11 @@ def parse_owner_ids():
 
 
 def parse_config_path() -> Path:
-    if not (path_env_var := os.getenv("CONFIG_PATH")):
+    if not (config_path_env_var := os.getenv("CONFIG_PATH")):
         config_path = Path(".")
-        logging.warning(f"`CONFIG_DIR` not set. Defaulting to current directory.")
+        logging.warning(f"`CONFIG_PATH` not set. Defaulting to current directory.")
     else:
-        config_path = Path(path_env_var)
+        config_path = Path(config_path_env_var)
 
     config_path /= Path("config")
 
@@ -32,7 +32,7 @@ def parse_config_path() -> Path:
         match input().lower():
             case "y":
                 logging.info(f"Using '{config_path}' as config folder")
-                logging.info(f"To suppress this message, set `CONFIG_DIR` to '{config_path}'")
+                logging.info(f"To suppress this message, set `CONFIG_PATH` to '{config_path}'")
             case _:
                 exit(1)
 
