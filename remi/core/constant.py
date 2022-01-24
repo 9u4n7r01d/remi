@@ -36,6 +36,14 @@ def parse_config_path() -> Path:
             case _:
                 exit(1)
 
+    if not config_path.exists():
+        logging.info(f"Attempting to create {config_path!r}...")
+        try:
+            config_path.mkdir(parents=True, exist_ok=True)
+        except PermissionError:
+            logging.error(f"Insufficient permission to create {config_path!r}. Exiting...")
+            exit(1)
+
     return config_path
 
 
