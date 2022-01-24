@@ -9,7 +9,7 @@ from remi.core.constant import Global
 from remi.core.exceptions import ProtectedPlugin
 from remi.util.embed import create_embed_from_dict
 
-about = lightbulb.Plugin("About", description="Information about Remi")
+about = lightbulb.Plugin("About", description="Information about Remi.")
 
 
 def load(bot: lightbulb.BotApp) -> None:

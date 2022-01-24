@@ -6,7 +6,7 @@ from remi.core.constant import Global
 from remi.core.exceptions import ProtectedPlugin
 from remi.util.embed import create_success_embed
 
-core = lightbulb.Plugin("Core", description="Remi's core commands")
+core = lightbulb.Plugin("Core", description="Remi's core commands.")
 
 
 def load(bot: lightbulb.BotApp) -> None:

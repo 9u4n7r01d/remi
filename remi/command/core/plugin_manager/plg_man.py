@@ -14,7 +14,7 @@ from remi.util.embed import (
 
 from .plg_scan import _get_all_plugin_info, _get_all_plugin_name_mapping
 
-plugin_manager = lightbulb.Plugin("Plugin Manager", description="Manage Remi's plugins")
+plugin_manager = lightbulb.Plugin("Plugin Manager", description="Manage Remi's plugins.")
 plugin_manager.add_checks(lightbulb.checks.owner_only)
 
 
@@ -105,24 +105,24 @@ _OPTION_KWARGS = {
 
 
 @plg_man.child
-@lightbulb.option(description="The plugin(s)'s import path to load", **_OPTION_KWARGS)
-@lightbulb.command(name="load", description="Load plugin(s).", inherit_checks=True)
+@lightbulb.option(description="The name of the plugin to load.", **_OPTION_KWARGS)
+@lightbulb.command(name="load", description="Load a plugin.", inherit_checks=True)
 @lightbulb.implements(*Global.sub_implements)
 async def plg_man_load(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "LOAD")
 
 
 @plg_man.child
-@lightbulb.option(description="The plugin(s)'s import path to unload", **_OPTION_KWARGS)
-@lightbulb.command(name="unload", description="Unload plugin(s).", inherit_checks=True)
+@lightbulb.option(description="The name of the plugin to unload.", **_OPTION_KWARGS)
+@lightbulb.command(name="unload", description="Unload a plugin.", inherit_checks=True)
 @lightbulb.implements(*Global.sub_implements)
 async def plg_man_unload(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "UNLOAD")
 
 
 @plg_man.child
-@lightbulb.option(description="The plugin(s)'s import path to reload", **_OPTION_KWARGS)
-@lightbulb.command(name="reload", description="Reload plugin(s).", inherit_checks=True)
+@lightbulb.option(description="The name of the plugin to reload.", **_OPTION_KWARGS)
+@lightbulb.command(name="reload", description="Reload a plugin.", inherit_checks=True)
 @lightbulb.implements(*Global.sub_implements)
 async def plg_man_reload(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "RELOAD")
