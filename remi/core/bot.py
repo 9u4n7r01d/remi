@@ -1,8 +1,11 @@
 import hikari
 import lightbulb
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.orm import sessionmaker
 
 from remi.core.constant import Client
 from remi.core.help_command import HelpCommand
+from remi.db import Base
 
 # Get our bot instance
 bot = lightbulb.BotApp(
@@ -18,12 +21,19 @@ bot = lightbulb.BotApp(
 # graceful construction and deconstruction, so it's better to have some scaffold in place beforehand
 @bot.listen(hikari.StartingEvent)
 async def on_starting(_) -> None:
-    pass
+    async_engine = bot.d.sql_engine = create_async_engine(
+        f"sqlite+aiosqlite:///{Client.config_path}/config.sqlite", future=True
+    )
+
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+    bot.d.sql_session = sessionmaker(async_engine, commit_on_expire=False, class_=AsyncSession)
 
 
 @bot.listen(hikari.StoppingEvent)
 async def on_stopping(_) -> None:
-    pass
+    await bot.d.sql_engine.dispose()
 
 
 @bot.listen(hikari.StartedEvent)

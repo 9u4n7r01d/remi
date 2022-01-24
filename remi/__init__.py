@@ -81,5 +81,8 @@ else:
     # Custom levels for loguru
     _logger.level(name="TRACE_HIKARI", no=5, color="<m><b>")
 
+    # Set certain logging handler of interest to DEBUG for verbosity
+    _logging.getLogger("sqlalchemy.engine").setLevel(_logging.DEBUG)
+
     # Start logging
     _logging.basicConfig(handlers=[_InterceptHandler()], level=_logging_level)
