@@ -28,7 +28,12 @@ async def on_starting(_) -> None:
     async with async_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    bot.d.sql_session = sessionmaker(async_engine, expire_on_commit=False, class_=AsyncSession)
+    bot.d.sql_session = sessionmaker(
+        async_engine,
+        expire_on_commit=False,
+        class_=AsyncSession,
+        autoflush=True,
+    )
 
 
 @bot.listen(hikari.StoppingEvent)
