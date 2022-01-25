@@ -23,8 +23,6 @@ def parse_config_path() -> Path:
     else:
         config_path = Path(config_path_env_var)
 
-    config_path /= Path("config")
-
     if not config_path.is_absolute():
         config_path = config_path.absolute()
         print(f"Do you want to use '{config_path}' to store config folder? (y/N): ", end="")
