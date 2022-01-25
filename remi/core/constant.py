@@ -16,13 +16,15 @@ def parse_owner_ids():
         return ()
 
 
-def parse_config_path() -> Path:
+def get_config_path() -> Path:
+    # Check for CONFIG_PATH's existence, default to current directory
     if not (config_path_env_var := os.getenv("CONFIG_PATH")):
         config_path = Path(".")
         logging.warning(f"`CONFIG_PATH` not set. Defaulting to current directory.")
     else:
         config_path = Path(config_path_env_var)
 
+    # Convert CONFIG_PATH to absolute path
     if not config_path.is_absolute():
         config_path = config_path.absolute()
         print(f"Do you want to use '{config_path}' to store config folder? (y/N): ", end="")
@@ -34,6 +36,7 @@ def parse_config_path() -> Path:
             case _:
                 exit(1)
 
+    # Create CONFIG_PATH
     if not config_path.exists():
         logging.info(f"Attempting to create {config_path!r}...")
         try:
@@ -57,4 +60,4 @@ class Client:
     token: Final[str] = os.getenv("TOKEN")
     prefix: Final[str] = os.getenv("BOT_PREFIX")
     owner_ids: Final[Tuple[int]] = parse_owner_ids()
-    config_path: Final[Path] = parse_config_path()
+    config_path: Final[Path] = get_config_path()
