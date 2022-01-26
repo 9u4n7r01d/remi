@@ -5,7 +5,7 @@ from random import choices, randint, uniform
 import hikari
 import pytest
 
-from remi.util.embed import EmbedDict, add_local_timezone, create_embed_from_dict
+from remi.util.embed import EmbedDict, _add_local_timezone, create_embed_from_dict
 
 START_OF_TIME = -62135536000.0  # datetime.datetime(1,1,2,0,0,0)
 END_OF_TIME = 253402189199.0  # datetime.datetime(9999,12,30,23,59,59)
