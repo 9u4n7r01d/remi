@@ -64,7 +64,7 @@ def create_failure_embed(
     """Generate a minimal failure embed"""
     template_embed = EmbedDict(
         title=title or "Something went wrong!",
-        description=description or "Full traceback in terminal.",
+        description=description,
         thumbnail=Resource.FAILURE_ICON,
         fields=fields,
         color=0xED254E,

@@ -56,7 +56,10 @@ async def on_cog_command_error(event: lightbulb.CommandErrorEvent) -> bool:
 
         # Default case for everything not handled.
         case _:
-            resp = create_failure_embed(f"Unhandled `{type(exception).__name__}` raised in `{__name__}`!")
+            resp = create_failure_embed(
+                title=f"Unhandled `{type(exception).__name__}` raised in `{__name__}`!",
+                description="Check terminal/log for full traceback.",
+            )
             await event.context.respond(embed=resp)
             return False
 
