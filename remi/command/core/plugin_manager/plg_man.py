@@ -90,10 +90,10 @@ async def plg_man_handler(ctx: context.Context, operation: str):
         case "RELOAD":
             plugin_manager.app.reload_extensions(load_path)
 
-    resp = create_success_embed(
+    load_status_embed = create_success_embed(
         title=f"Successfully {operation.lower()}ed plugins `{target_plugin}`",
     )
-    await ctx.respond(embed=resp)
+    await ctx.respond(embed=load_status_embed)
 
 
 _OPTION_KWARGS = {

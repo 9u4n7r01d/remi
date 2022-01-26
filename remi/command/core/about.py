@@ -37,7 +37,7 @@ async def core_about(ctx: context.Context):
 
     red_repo = "https://github.com/Cog-Creators/Red-DiscordBot"
 
-    info = create_embed_from_dict(
+    info_embed = create_embed_from_dict(
         {
             "color": 0xF9DC5C,
             "fields": [
@@ -67,4 +67,4 @@ async def core_about(ctx: context.Context):
             "thumbnail": ctx.bot.get_me().avatar_url,
         }
     )
-    await ctx.respond(embed=info)
+    await ctx.respond(embed=info_embed)

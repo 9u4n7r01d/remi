@@ -21,12 +21,12 @@ def unload(bot: lightbulb.BotApp) -> None:
 @lightbulb.command(name="ping", description="Ping the bot. Dirty way to ensure it's online.")
 @lightbulb.implements(*Global.command_implements)
 async def core_ping(ctx: context.Context):
-    embed_response = create_success_embed(
+    ping_result_embed = create_success_embed(
         title="**Success!**",
         description="Bot is (hopefully) still alive!",
         fields=[{"name": "Heartbeat latency", "value": f"{core.app.heartbeat_latency * 1000:.2f}ms"}],
     )
-    await ctx.respond(embed=embed_response)
+    await ctx.respond(embed=ping_result_embed)
 
 
 @core.command
