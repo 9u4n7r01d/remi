@@ -93,7 +93,7 @@ def create_warning_embed(
     description: Optional[str] = None,
     fields: Optional[list[EmbedField]] = None,
 ) -> hikari.Embed:
-    """Generate a minimal success embed"""
+    """Generate a minimal warning embed"""
     template_embed = EmbedDict(
         title=title or "Warning",
         description=description,
