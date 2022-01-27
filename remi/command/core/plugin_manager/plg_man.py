@@ -4,7 +4,7 @@ import hikari
 import lightbulb
 from lightbulb import commands, context
 
-from remi.core.constant import Global
+from remi.core.constant import Client, Global
 from remi.core.exceptions import ProtectedPlugin
 from remi.util.embed import (
     create_embed_from_dict,
@@ -19,7 +19,10 @@ plugin_manager.add_checks(lightbulb.checks.owner_only)
 
 
 def load(bot: lightbulb.BotApp) -> None:
-    bot.add_plugin(plugin_manager)
+    if Client.dev_mode:
+        bot.remove_plugin(plugin_manager)
+    else:
+        bot.add_plugin(plugin_manager)
 
 
 def unload(bot: lightbulb.BotApp) -> None:

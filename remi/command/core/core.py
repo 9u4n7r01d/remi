@@ -2,7 +2,7 @@ import hikari
 import lightbulb
 from lightbulb import commands, context
 
-from remi.core.constant import Global
+from remi.core.constant import Client, Global
 from remi.core.exceptions import ProtectedPlugin
 from remi.util.embed import create_success_embed
 
@@ -14,7 +14,10 @@ def load(bot: lightbulb.BotApp) -> None:
 
 
 def unload(bot: lightbulb.BotApp) -> None:
-    raise ProtectedPlugin(f"Cannot unload protected plugin `{core.name}`!")
+    if Client.dev_mode:
+        bot.remove_plugin(core)
+    else:
+        raise ProtectedPlugin(f"Cannot unload protected plugin `{core.name}`!")
 
 
 @core.command

@@ -5,7 +5,7 @@ import lightbulb
 import loguru
 from lightbulb import commands, context
 
-from remi.core.constant import Global
+from remi.core.constant import Client, Global
 from remi.core.exceptions import ProtectedPlugin
 from remi.util.embed import create_embed_from_dict
 
@@ -17,7 +17,10 @@ def load(bot: lightbulb.BotApp) -> None:
 
 
 def unload(bot: lightbulb.BotApp) -> None:
-    raise ProtectedPlugin(f"Cannot unload protected plugin {about.name}!")
+    if Client.dev_mode:
+        bot.remove_plugin(about)
+    else:
+        raise ProtectedPlugin(f"Cannot unload protected plugin {about.name}!")
 
 
 def _get_owner(ctx: context.Context):
