@@ -2,6 +2,7 @@ __name__ = "remi"
 __version__ = "0.1.0"
 
 import logging as _logging
+import os as _os
 import sys as _sys
 
 import click as _click
@@ -37,6 +38,7 @@ class _InterceptHandler(_logging.Handler):
 @_click.command()
 @_click.option("-v", "--verbose", help="Increase verbosity (can be stacked).", count=True)
 @_click.option("-f", "--file", help="Enable writing log files (rotated at midnight)", is_flag=True)
+@_click.option("--dev", help="Enable development mode", is_flag=True)
 @_click.pass_context
 def get_click_context(ctx, *args, **kwargs):
     return ctx
@@ -48,6 +50,9 @@ if not _ctx:  # If we're calling with --help, get_context() will return 0
     _sys.exit(0)
 
 else:
+    # Set dev mode
+    _os.environ["REMI_DEVMODE"] = "True"
+
     # Mapping for logging level
     match _ctx.params["verbose"]:
         case 0:

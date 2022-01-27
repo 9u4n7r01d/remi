@@ -48,6 +48,10 @@ def get_config_path() -> Path:
     return config_path
 
 
+def is_dev_mode():
+    return bool(os.getenv("REMI_DEVMODE", default=False))
+
+
 @dataclass(frozen=True)
 class Global:
     command_implements: Final = (commands.SlashCommand, commands.PrefixCommand)
@@ -61,3 +65,4 @@ class Client:
     prefix: Final[str] = os.getenv("BOT_PREFIX")
     owner_ids: Final[Tuple[int]] = parse_owner_ids()
     config_path: Final[Path] = get_config_path()
+    dev_mode: Final[bool] = is_dev_mode()
