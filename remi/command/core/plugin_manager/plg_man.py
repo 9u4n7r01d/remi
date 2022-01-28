@@ -19,14 +19,14 @@ plugin_manager.add_checks(lightbulb.checks.owner_only)
 
 
 def load(bot: lightbulb.BotApp) -> None:
-    if Client.dev_mode:
-        bot.remove_plugin(plugin_manager)
-    else:
-        bot.add_plugin(plugin_manager)
+    bot.add_plugin(plugin_manager)
 
 
 def unload(bot: lightbulb.BotApp) -> None:
-    raise ProtectedPlugin(f"Cannot unload protected plugin {plg_man.name}!")
+    if Client.dev_mode:
+        bot.remove_plugin(plugin_manager)
+    else:
+        raise ProtectedPlugin(f"Cannot unload protected plugin {plg_man.name}!")
 
 
 @plugin_manager.set_error_handler
@@ -71,7 +71,7 @@ async def on_cog_command_error(event: lightbulb.CommandErrorEvent) -> bool:
 
 
 @plugin_manager.command
-@lightbulb.command(name="plugin", description="Manage hot-(un)loading of plugins.")
+@lightbulb.command(name="plugin", description="Manage hot-(un)loading of plugins.", inherit_checks=True)
 @lightbulb.implements(*Global.group_implements)
 async def plg_man(ctx: context.Context) -> None:
     pass
