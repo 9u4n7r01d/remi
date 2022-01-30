@@ -2,8 +2,6 @@ import importlib
 import sys
 from dataclasses import dataclass
 
-import lightbulb
-
 _CORE_COMMAND_PACKAGE = "remi.command.core"
 _BUNDLED_COMMAND_PACKAGE = "remi.command.ext"
 
@@ -24,9 +22,12 @@ def _scan_plugin(plugin_package: str) -> dict[str, PluginInfo]:
 
     for attr_str in dir(package):
         attr = getattr(package, attr_str)
-        if not attr_str.startswith("__") and isinstance(attr, lightbulb.Plugin):
-            alias_mapping[attr.name] = PluginInfo(
-                load_path=f"{plugin_package}.{attr_str}", description=attr.description
+
+        if not attr_str.startswith("__") and all(
+            [hasattr(attr, i) for i in ("load", "unload", "__plugin_name__", "__plugin_description__")]
+        ):
+            alias_mapping[attr.__plugin_name__] = PluginInfo(
+                load_path=attr.__name__, description=attr.__plugin_description__
             )
 
     # Restore the old sys.module
