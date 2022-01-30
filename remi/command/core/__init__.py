@@ -1,3 +1,3 @@
-from .about import about
-from .core import core
-from .plugin_manager.plg_man import plugin_manager
+import remi.command.core.about
+import remi.command.core.plugin_manager
+import remi.command.core.self

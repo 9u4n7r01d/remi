@@ -5,22 +5,10 @@ import lightbulb
 import loguru
 from lightbulb import commands, context
 
-from remi.core.constant import Client, Global
-from remi.core.exceptions import ProtectedPlugin
+from remi.core.constant import Global
 from remi.util.embed import create_embed_from_dict
 
 about = lightbulb.Plugin("About", description="Information about Remi.")
-
-
-def load(bot: lightbulb.BotApp) -> None:
-    bot.add_plugin(about)
-
-
-def unload(bot: lightbulb.BotApp) -> None:
-    if Client.dev_mode:
-        bot.remove_plugin(about)
-    else:
-        raise ProtectedPlugin(f"Cannot unload protected plugin {about.name}!")
 
 
 def _get_owner(ctx: context.Context):
