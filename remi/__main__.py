@@ -2,7 +2,7 @@ import os
 
 from remi.core.bot import bot
 
-if os.sys != "nt":
+if os.name != "nt":
     import uvloop
 
     uvloop.install()
