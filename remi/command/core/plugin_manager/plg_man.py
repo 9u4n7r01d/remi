@@ -74,6 +74,8 @@ async def plg_man_handler(ctx: context.Context, operation: str):
     else:
         load_path = mapping[target_plugin]
 
+    # BUG: Current plugin structure obstructs plugins from being destroyed.
+    #      Tracked as https://github.com/tandemdude/hikari-lightbulb/issues/202
     match operation:
         case "LOAD":
             plugin_manager.app.load_extensions(load_path)
