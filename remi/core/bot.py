@@ -1,11 +1,15 @@
 import hikari
 import lightbulb
+from rich import print as _rprint
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
-from remi.core.constant import Client
+from remi.core.constant import Banner, Client
 from remi.core.help_command import HelpCommand
 from remi.db import Base
+
+# Banner
+_rprint(Banner.banner_text)
 
 # Get our bot instance
 bot = lightbulb.BotApp(

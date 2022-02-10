@@ -1,0 +1,9 @@
++--------------------------------------------------+
+|  [cyan]ooooooooo.                                o8o[/]   |       Built on: [magenta]Hikari        v${hikari_version}[/]
+|  [cyan]`888   `Y88.                              `"'[/]   |                 [cyan]Lightbulb     v${lightbulb_version}[/]
+|  [cyan] 888   .d88'  .ooooo.  ooo. .oo.  .oo.   oooo[/]   |                 [yellow]Loguru        v${loguru_version}[/]
+|  [cyan] 888ooo88P'  d88' `88b `888P"Y88bP"Y88b  `888[/]   |                 [cyan]SQLAlchemy    v${sqlalchemy_version}[/]
+|  [cyan] 888`88b.    888ooo888  888   888   888   888[/]   |
+|  [cyan] 888  `88b.  888    .o  888   888   888   888[/]   |       Host OS : [green]${system_info}[/]
+|  [cyan]o888o  o888o `Y8bod8P' o888o o888o o888o o888o[/]  |       Python  : [cyan]${python_version}[/]
++--------------------------------------------------+

@@ -1,10 +1,17 @@
 import logging
 import os
+import string
 from dataclasses import dataclass
+from importlib import resources
 from pathlib import Path
+from platform import machine, python_version, release, system
 from sys import exit
 from typing import Final, Tuple
 
+import hikari
+import lightbulb
+import loguru
+import sqlalchemy
 from lightbulb import commands
 
 
@@ -66,3 +73,14 @@ class Client:
     owner_ids: Final[Tuple[int]] = parse_owner_ids()
     config_path: Final[Path] = get_config_path()
     dev_mode: Final[bool] = is_dev_mode()
+
+
+class Banner:
+    banner_text = string.Template(resources.read_text("remi.core", "banner.txt")).safe_substitute(
+        hikari_version=hikari.__version__,
+        lightbulb_version=lightbulb.__version__,
+        loguru_version=loguru.__version__,
+        sqlalchemy_version=sqlalchemy.__version__,
+        system_info=f"{machine()} - {system()} {release()}",
+        python_version=python_version(),
+    )

@@ -15,6 +15,7 @@ tzlocal = "^4.1"
 loguru = "^0.5.3"
 SQLAlchemy = "^1.4.31"
 aiosqlite = "^0.17.0"
+rich = "^11.1.0"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.16.0"
