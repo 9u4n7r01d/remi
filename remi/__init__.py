@@ -38,7 +38,8 @@ class _InterceptHandler(_logging.Handler):
 @_click.command()
 @_click.option("-v", "--verbose", help="Increase verbosity (can be stacked).", count=True)
 @_click.option("-f", "--file", help="Enable writing log files (rotated at midnight)", is_flag=True)
-@_click.option("--dev", help="Enable development mode", is_flag=True)
+@_click.option("--dev", help="Enable developer mode", is_flag=True)
+@_click.option("--log-sql", help="Enable developer mode (enable additional logging)", is_flag=True)
 @_click.pass_context
 def get_click_context(ctx, *args, **kwargs):
     return ctx
@@ -49,45 +50,47 @@ _ctx = get_click_context(standalone_mode=False)
 if not _ctx:  # If we're calling with --help, get_context() will return 0
     _sys.exit(0)
 
-else:
-    # Set dev mode
+# Set up logging
+# Mapping for logging level
+match _ctx.params["verbose"]:
+    case 0:
+        _logging_level = 20  # INFO
+        _loguru_level_padding = 8
+    case 1:
+        _logging_level = 10  # DEBUG
+        _loguru_level_padding = 8
+    case 2:
+        _logging_level = 5  # TRACE_HIKARI
+        _loguru_level_padding = 12
+    case _:
+        _logging_level = 0  # NOTSET
+        _loguru_level_padding = 12
+
+# Remove the default handler and replace it with our customizable one
+_logger.remove()
+
+_log_format = (
+    "<g>{time:YYYY-MM-DD HH:mm:ss.SSS}</> | "
+    f"<lvl>{{level: <{_loguru_level_padding}}}</> | "
+    "<c>{name}</>:<c>{function}</>:<c>{line}</> - <lvl>{message}</>"
+)
+
+# Loguru handlers
+_logger.add(_sys.stderr, format=_log_format, level=_logging_level)
+
+if _ctx.params["file"]:
+    _logger.add("remi.log", rotation="00:00", format=_log_format, level=_logging_level)
+
+# Custom levels for loguru
+_logger.level(name="TRACE_HIKARI", no=5, color="<m><b>")
+
+# Start logging
+_logging.basicConfig(handlers=[_InterceptHandler()], level=_logging_level)
+
+# Set up certain logging handler of interest as needed
+if _ctx.params["log_sql"]:
+    _logging.getLogger("sqlalchemy").setLevel(_logging_level)
+
+# Development mode-related configuration
+if _ctx.params["dev"]:
     _os.environ["REMI_DEVMODE"] = "True"
-
-    # Mapping for logging level
-    match _ctx.params["verbose"]:
-        case 0:
-            _logging_level = 20  # INFO
-            _loguru_level_padding = 8
-        case 1:
-            _logging_level = 10  # DEBUG
-            _loguru_level_padding = 8
-        case 2:
-            _logging_level = 5  # TRACE_HIKARI
-            _loguru_level_padding = 12
-        case _:
-            _logging_level = 0  # NOTSET
-            _loguru_level_padding = 12
-
-    # Remove the default handler and replace it with our customizable one
-    _logger.remove()
-
-    _log_format = (
-        "<g>{time:YYYY-MM-DD HH:mm:ss.SSS}</> | "
-        f"<lvl>{{level: <{_loguru_level_padding}}}</> | "
-        "<c>{name}</>:<c>{function}</>:<c>{line}</> - <lvl>{message}</>"
-    )
-
-    # Loguru handlers
-    _logger.add(_sys.stderr, format=_log_format, level=_logging_level)
-
-    if _ctx.params["file"]:
-        _logger.add("remi.log", rotation="00:00", format=_log_format, level=_logging_level)
-
-    # Custom levels for loguru
-    _logger.level(name="TRACE_HIKARI", no=5, color="<m><b>")
-
-    # Set certain logging handler of interest to DEBUG for verbosity
-    _logging.getLogger("sqlalchemy.engine").setLevel(_logging.DEBUG)
-
-    # Start logging
-    _logging.basicConfig(handlers=[_InterceptHandler()], level=_logging_level)
