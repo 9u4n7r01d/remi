@@ -23,7 +23,7 @@ staff_role_plugin = lightbulb.Plugin(
 
 
 @staff_role_plugin.command
-@lightbulb.command(name="staff", description="Manage this server's staff roles")
+@lightbulb.command(name="staff", description="Manage this server's staff roles.")
 @lightbulb.implements(*Global.group_implements)
 async def staff_command(ctx: context.Context):
     pass
@@ -72,7 +72,7 @@ def _handler_docstring(remove):
 
 async def staff_edit_handler(ctx: context.Context, remove=False):
     if not (rank := _parse_rank(ctx.options.rank)):
-        await ctx.respond(embed=create_failure_embed(title=f"Unknown rank {ctx.options.rank!r}"))
+        await ctx.respond(embed=create_failure_embed(title=f"Unknown rank {ctx.options.rank!r}!"))
         return
 
     operation_result = []
@@ -123,7 +123,7 @@ async def staff_edit_handler(ctx: context.Context, remove=False):
     required=True,
 )
 @lightbulb.option(name="rank", description="The equivalent rank to set rank(s) to.", required=True)
-@lightbulb.command(name="set", description="Set a role to be equivalent to moderator/administrator")
+@lightbulb.command(name="set", description="Set a role to be equivalent to moderator/administrator.")
 @lightbulb.implements(*Global.sub_implements)
 async def staff_set(ctx: context.Context):
     await staff_edit_handler(ctx, remove=False)
@@ -139,7 +139,7 @@ async def staff_set(ctx: context.Context):
     required=True,
 )
 @lightbulb.option(name="rank", description="The equivalent rank to set rank(s) to.", required=True)
-@lightbulb.command(name="remove", description="Remove a role from being equivalent to moderator/administrator")
+@lightbulb.command(name="remove", description="Remove a role from being equivalent to moderator/administrator.")
 @lightbulb.implements(*Global.sub_implements)
 async def staff_remove(ctx: context.Context):
     await staff_edit_handler(ctx, remove=True)
@@ -152,7 +152,7 @@ async def _query_role(ctx: context.Context, stmt: sqlalchemy.sql.Selectable) -> 
 
 
 @staff_command.child
-@lightbulb.command(name="info", description="List out current server's rank settings")
+@lightbulb.command(name="info", description="List out current server's rank settings.")
 @lightbulb.implements(*Global.sub_implements)
 async def staff_list(ctx: context.Context):
     base_stmt = select(StaffRole.role_id).where(StaffRole.server_id == "915940381080821760")
@@ -179,7 +179,7 @@ async def staff_list(ctx: context.Context):
 
 
 @staff_command.child
-@lightbulb.command(name="reset", description="Reset server's staff ")
+@lightbulb.command(name="reset", description="Reset server's staff.")
 @lightbulb.implements(*Global.sub_implements)
 async def staff_reset(ctx: context.Context):
     stmt = delete(StaffRole).where(StaffRole.server_id == ctx.guild_id)
