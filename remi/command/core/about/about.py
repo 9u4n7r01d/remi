@@ -3,7 +3,7 @@ import sys
 import hikari
 import lightbulb
 import loguru
-from lightbulb import commands, context
+from lightbulb import context
 
 from remi.core.constant import Global
 from remi.util.embed import create_embed_from_dict

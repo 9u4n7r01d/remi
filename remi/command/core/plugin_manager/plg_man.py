@@ -2,7 +2,7 @@ from functools import partial
 
 import hikari
 import lightbulb
-from lightbulb import commands, context
+from lightbulb import context
 
 from remi.core.constant import Global
 from remi.core.exceptions import ProtectedPlugin
