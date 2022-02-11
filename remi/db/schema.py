@@ -13,7 +13,4 @@ class StaffRole(Base):
     role_id = Column(Integer)
 
     def __repr__(self):
-        return (
-            f"StaffRole(id={self.id!r}, server_id={self.server_id!r}, role={self.rank!r}, "
-            f"role_id={self.role_id!r}) "
-        )
+        return f"StaffRole(id={self.id!r}, server_id={self.server_id!r}, role={self.rank!r}, role_id={self.role_id!r})"
