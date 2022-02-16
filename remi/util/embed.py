@@ -56,20 +56,44 @@ def create_embed_from_dict(data: EmbedDict) -> hikari.Embed:
     return embed
 
 
+def _generic_embed_handler(
+    title: Optional[str], description: Optional[str], fields: Optional[list[EmbedField]], operation: str
+):
+    match operation:
+        case "FAILURE":
+            default_title = "Something went wrong!"
+            thumbnail = Resource.FAILURE_ICON
+            color = 0xED254E
+
+        case "WARNING":
+            default_title = "Warning!"
+            thumbnail = Resource.WARNING_ICON
+            color = 0xF9DC5C
+
+        case "SUCCESS":
+            default_title = "Success!"
+            thumbnail = Resource.SUCCESS_ICON
+            color = 0x71F79F
+
+    # noinspection PyUnboundLocalVariable
+    # As this is intended to be used only internally we don't care if default_title can be unbound
+    template_embed_dict = EmbedDict(
+        title=title or default_title,
+        description=description,
+        thumbnail=thumbnail,
+        fields=fields,
+        color=color,
+    )
+    return create_embed_from_dict(template_embed_dict)
+
+
 def create_failure_embed(
     title: Optional[str] = None,
     description: Optional[str] = None,
     fields: Optional[list[EmbedField]] = None,
 ) -> hikari.Embed:
     """Generate a minimal failure embed"""
-    template_embed = EmbedDict(
-        title=title or "Something went wrong!",
-        description=description,
-        thumbnail=Resource.FAILURE_ICON,
-        fields=fields,
-        color=0xED254E,
-    )
-    return create_embed_from_dict(template_embed)
+    return _generic_embed_handler(title=title, description=description, fields=fields, operation="FAILURE")
 
 
 def create_success_embed(
@@ -78,14 +102,7 @@ def create_success_embed(
     fields: Optional[list[EmbedField]] = None,
 ) -> hikari.Embed:
     """Generate a minimal success embed"""
-    template_embed = EmbedDict(
-        title=title or "Success",
-        description=description,
-        thumbnail=Resource.SUCCESS_ICON,
-        fields=fields,
-        color=0x71F79F,
-    )
-    return create_embed_from_dict(template_embed)
+    return _generic_embed_handler(title=title, description=description, fields=fields, operation="SUCCESS")
 
 
 def create_warning_embed(
@@ -94,11 +111,4 @@ def create_warning_embed(
     fields: Optional[list[EmbedField]] = None,
 ) -> hikari.Embed:
     """Generate a minimal warning embed"""
-    template_embed = EmbedDict(
-        title=title or "Warning",
-        description=description,
-        thumbnail=Resource.WARNING_ICON,
-        fields=fields,
-        color=0xF9DC5C,
-    )
-    return create_embed_from_dict(template_embed)
+    return _generic_embed_handler(title=title, description=description, fields=fields, operation="WARNING")
