@@ -12,6 +12,7 @@ from remi.db.schema import StaffRole
 from remi.db.util import async_sql_session
 from remi.util.embed import (
     create_failure_embed,
+    create_info_embed,
     create_success_embed,
     create_warning_embed,
 )
@@ -160,17 +161,18 @@ async def staff_list(ctx: context.Context):
     select_moderator = base_stmt.where(StaffRole.rank == "Moderator")
     select_administrator = base_stmt.where(StaffRole.rank == "Administrator")
 
-    role_info_embed = EmbedDict(
+    role_info_embed = create_info_embed(
         title=f"Staff role info for `{ctx.get_guild().name}`",
         fields=[
             EmbedField(
                 name="Moderator",
-                value="\n".join([f"\N{BULLET} {role}" for role in await _query_role(ctx, select_moderator)]),
+                value="\n".join([f"\N{BULLET} {role}" for role in await _query_role(ctx, select_moderator)]) or "None",
                 inline=True,
             ),
             EmbedField(
                 name="Administrator",
-                value="\n".join([f"\N{BULLET} {role}" for role in await _query_role(ctx, select_administrator)]),
+                value="\n".join([f"\N{BULLET} {role}" for role in await _query_role(ctx, select_administrator)])
+                or "None",
                 inline=True,
             ),
         ],

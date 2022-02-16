@@ -75,6 +75,11 @@ def _generic_embed_handler(
             thumbnail = Resource.SUCCESS_ICON
             color = 0x71F79F
 
+        case "INFO":
+            default_title = "Info"
+            thumbnail = Resource.HELP_ICON
+            color = 0x7CB7FF
+
     # noinspection PyUnboundLocalVariable
     # As this is intended to be used only internally we don't care if default_title can be unbound
     template_embed_dict = EmbedDict(
@@ -112,3 +117,12 @@ def create_warning_embed(
 ) -> hikari.Embed:
     """Generate a minimal warning embed"""
     return _generic_embed_handler(title=title, description=description, fields=fields, operation="WARNING")
+
+
+def create_info_embed(
+    title: Optional[str] = None,
+    description: Optional[str] = None,
+    fields: Optional[list[EmbedField]] = None,
+) -> hikari.Embed:
+    """Generate a minimal warning embed"""
+    return _generic_embed_handler(title=title, description=description, fields=fields, operation="INFO")
