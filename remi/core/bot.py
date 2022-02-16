@@ -25,24 +25,13 @@ bot = lightbulb.BotApp(
 # graceful construction and deconstruction, so it's better to have some scaffold in place beforehand
 @bot.listen(hikari.StartingEvent)
 async def on_starting(_) -> None:
-    async_engine = bot.d.sql_engine = create_async_engine(
-        f"sqlite+aiosqlite:///{Client.config_path}/config.sqlite", future=True
-    )
-
     async with async_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-
-    bot.d.sql_session = sessionmaker(
-        async_engine,
-        expire_on_commit=False,
-        class_=AsyncSession,
-        autoflush=True,
-    )
 
 
 @bot.listen(hikari.StoppingEvent)
 async def on_stopping(_) -> None:
-    await bot.d.sql_engine.dispose()
+    await dispose_all_engines()
 
 
 @bot.listen(hikari.StartedEvent)
