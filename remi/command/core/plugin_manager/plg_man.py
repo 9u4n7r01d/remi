@@ -7,6 +7,7 @@ from lightbulb import commands, context
 from remi.core.constant import Global
 from remi.core.exceptions import ProtectedPlugin
 from remi.util.embed import (
+    EmbedDict,
     create_embed_from_dict,
     create_failure_embed,
     create_success_embed,
@@ -148,12 +149,12 @@ async def plg_man_list(ctx: context.Context) -> None:
         embed_text.append(f"**{category}**\n" + "\n".join(category_listing))
 
     resp_embed = create_embed_from_dict(
-        {
-            "title": "Available plugins",
-            "description": "\n".join(embed_text),
-            "footer": {"text": "[x] means loaded, otherwise [ ]"},
-            "color": 0x7CB7FF,
-        }
+        EmbedDict(
+            title="Available plugins",
+            description="\n".join(embed_text),
+            footer={"text": "[x] means loaded, otherwise [ ]"},
+            color=0x7CB7FF,
+        )
     )
 
     await ctx.respond(embed=resp_embed)
