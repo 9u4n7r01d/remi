@@ -157,7 +157,7 @@ async def _query_role(ctx: context.Context, stmt: sqlalchemy.sql.Selectable) -> 
 @lightbulb.command(name="info", description="List out current server's rank settings.")
 @lightbulb.implements(*Global.sub_implements)
 async def staff_list(ctx: context.Context):
-    base_stmt = select(StaffRole.role_id).where(StaffRole.server_id == "915940381080821760")
+    base_stmt = select(StaffRole.role_id).where(StaffRole.guild_id == ctx.guild_id)
     select_moderator = base_stmt.where(StaffRole.rank == "Moderator")
     select_administrator = base_stmt.where(StaffRole.rank == "Administrator")
 
@@ -185,7 +185,7 @@ async def staff_list(ctx: context.Context):
 @lightbulb.command(name="reset", description="Reset server's staff.")
 @lightbulb.implements(*Global.sub_implements)
 async def staff_reset(ctx: context.Context):
-    stmt = delete(StaffRole).where(StaffRole.server_id == ctx.guild_id)
+    stmt = delete(StaffRole).where(StaffRole.guild_id == ctx.guild_id)
 
     async with async_sql_session() as session:
         await session.execute(stmt)
