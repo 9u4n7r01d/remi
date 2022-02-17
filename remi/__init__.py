@@ -37,9 +37,9 @@ class _InterceptHandler(_logging.Handler):
 # exit if `--help`
 @_click.command()
 @_click.option("-v", "--verbose", help="Increase verbosity (can be stacked).", count=True)
-@_click.option("-f", "--file", help="Enable writing log files (rotated at midnight)", is_flag=True)
-@_click.option("--dev", help="Enable developer mode", is_flag=True)
-@_click.option("--log-sql", help="Enable developer mode (enable additional logging)", is_flag=True)
+@_click.option("-f", "--file", help="Enable writing log files (rotated at midnight).", is_flag=True)
+@_click.option("--dev", help="Enable developer mode.", is_flag=True)
+@_click.option("--log-sql", help="Enable logging of SQL.", is_flag=True)
 @_click.pass_context
 def get_click_context(ctx, *args, **kwargs):
     return ctx
