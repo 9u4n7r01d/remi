@@ -1,20 +1,31 @@
 import hikari
 import lightbulb
 from rich import print as _rprint
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import select
 
 from remi.core.constant import Banner, Client
 from remi.core.help_command import HelpCommand
 from remi.db import Base
+from remi.db.schema import ServerPrefix
+from remi.db.util import async_engine, async_sql_session, dispose_all_engines
 
 # Banner
 _rprint(Banner.banner_text)
 
+
+# Prefix getter
+async def get_prefix(app: lightbulb.BotApp, message: hikari.Message) -> list[str]:
+    async with async_sql_session() as session:
+        stmt = select(ServerPrefix.prefix).where(ServerPrefix.guild_id == message.guild_id)
+        server_prefix = (await session.execute(stmt)).scalars().all()
+
+    return server_prefix or Client.prefix
+
+
 # Get our bot instance
 bot = lightbulb.BotApp(
     token=Client.token,
-    prefix=Client.prefix,
+    prefix=lightbulb.app.when_mentioned_or(get_prefix),
     banner=None,
     help_class=HelpCommand,
     owner_ids=Client.owner_ids,
@@ -43,3 +54,5 @@ async def on_started(_) -> None:
 bot.load_extensions("remi.command.core.self")
 bot.load_extensions("remi.command.core.plugin_manager")
 bot.load_extensions("remi.command.core.about")
+bot.load_extensions("remi.command.core.staff_role")
+bot.load_extensions("remi.command.core.prefix")
