@@ -32,12 +32,12 @@ In the repository root, edit `.env.example` then rename it to `.env`. Example:
 ```shell
 TOKEN='Your token goes here'
 BOT_PREFIX='op!'
-OWNER_IDS=31415,92653,58979,32385
-CONFIG_PATH=
+OWNER_IDS='31415,92653,58979,32385'
+CONFIG_PATH=''
 ```
 
 - `TOKEN`: Your bot's token, obtained from [Discord Developer Dashboard](https://discord.com/developers).
-- `BOT_PREFIX`: Your preferred prefix for your bot.
+- `BOT_PREFIX`: Your preferred prefix for your bot. This will be the default prefix.
 - `OWNER_IDS`: Comma-separated Discord user IDs. Those assigned will have full access to the bot's functionalities. Use with care.
 - `CONFIG_PATH`: Location to store your bot's various configuration files.
 
@@ -48,7 +48,9 @@ Usage: remi [OPTIONS]
 
 Options:
   -v, --verbose  Increase verbosity (can be stacked).
-  -f, --file     Enable writing log files (rotated at midnight)
+  -f, --file     Enable writing log files (rotated at midnight).
+  --dev          Enable developer mode.
+  --log-sql      Enable logging of SQL.
   --help         Show this message and exit.
 ```
 
