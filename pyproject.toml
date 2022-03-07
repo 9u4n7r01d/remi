@@ -26,6 +26,8 @@ python-dotenv = "^0.19.2"
 pytest = "^6.2.5"
 pytest-repeat = "^0.9.1"
 isort = "^5.10.1"
+memory-profiler = "^0.60.0"
+matplotlib = "^3.5.1"
 
 [tool.poetry.scripts]
 remi = 'remi:__main__.main'

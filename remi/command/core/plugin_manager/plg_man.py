@@ -1,4 +1,6 @@
+import sys
 from functools import partial
+from importlib import reload
 
 import hikari
 import lightbulb
@@ -75,16 +77,18 @@ async def plg_man_handler(ctx: context.Context, operation: str):
     else:
         load_path = mapping[target_plugin]
 
-    # BUG: Current plugin structure obstructs plugins from being destroyed.
-    #      Tracked as https://github.com/tandemdude/hikari-lightbulb/issues/202
+    reload_target = [i for i in sys.modules if load_path in i]
+
     match operation:
         case "LOAD":
             plugin_manager.app.load_extensions(load_path)
 
         case "UNLOAD":
+            [reload(sys.modules[i]) for i in reload_target]
             plugin_manager.app.unload_extensions(load_path)
 
         case "RELOAD":
+            [reload(sys.modules[i]) for i in reload_target]
             plugin_manager.app.reload_extensions(load_path)
 
     load_status_embed = create_success_embed(
