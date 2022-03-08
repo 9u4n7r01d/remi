@@ -89,7 +89,8 @@ async def plg_man_handler(ctx: context.Context, operation: str):
 
         case "RELOAD":
             [reload(sys.modules[i]) for i in reload_target]
-            plugin_manager.app.reload_extensions(load_path)
+            plugin_manager.app.unload_extensions(load_path)
+            plugin_manager.app.load_extensions(load_path)
 
     load_status_embed = create_success_embed(
         title=f"Successfully {operation.lower()}ed plugins `{target_plugin}`",
