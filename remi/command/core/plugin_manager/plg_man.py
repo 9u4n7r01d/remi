@@ -98,16 +98,14 @@ async def plg_man_handler(ctx: context.Context, operation: str):
     await ctx.respond(embed=load_status_embed)
 
 
-_OPTION_KWARGS = {
-    "name": "plugin",
-    "type": str,
-    "required": True,
-    "modifier": commands.OptionModifier.CONSUME_REST,
-}
-
-
 @plg_man.child
-@lightbulb.option(description="The name of the plugin to load.", **_OPTION_KWARGS)
+@lightbulb.option(
+    name="plugin",
+    description="The name of the plugin to load.",
+    type=str,
+    required=True,
+    modifier=commands.OptionModifier.CONSUME_REST,
+)
 @lightbulb.command(name="load", description="Load a plugin.")
 @lightbulb.implements(*Global.sub_implements)
 async def plg_man_load(ctx: context.Context) -> None:
@@ -115,7 +113,13 @@ async def plg_man_load(ctx: context.Context) -> None:
 
 
 @plg_man.child
-@lightbulb.option(description="The name of the plugin to unload.", **_OPTION_KWARGS)
+@lightbulb.option(
+    name="plugin",
+    description="The name of the plugin to load.",
+    type=str,
+    required=True,
+    modifier=commands.OptionModifier.CONSUME_REST,
+)
 @lightbulb.command(name="unload", description="Unload a plugin.")
 @lightbulb.implements(*Global.sub_implements)
 async def plg_man_unload(ctx: context.Context) -> None:
@@ -123,7 +127,13 @@ async def plg_man_unload(ctx: context.Context) -> None:
 
 
 @plg_man.child
-@lightbulb.option(description="The name of the plugin to reload.", **_OPTION_KWARGS)
+@lightbulb.option(
+    name="plugin",
+    description="The name of the plugin to load.",
+    type=str,
+    required=True,
+    modifier=commands.OptionModifier.CONSUME_REST,
+)
 @lightbulb.command(name="reload", description="Reload a plugin.")
 @lightbulb.implements(*Global.sub_implements)
 async def plg_man_reload(ctx: context.Context) -> None:
