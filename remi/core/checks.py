@@ -1,6 +1,6 @@
-import hikari
 import lightbulb
-from lightbulb import context
+from hikari.permissions import Permissions
+from lightbulb import checks, context
 from sqlalchemy import select
 
 from remi.db.schema import StaffRole
@@ -9,12 +9,10 @@ from remi.db.util import async_sql_session
 
 @lightbulb.Check
 async def is_moderator(ctx: context.Context) -> bool:
-    author_id = ctx.author.id
-
-    if author_id in await ctx.bot.fetch_owner_ids():
+    if await is_administrator(ctx):
         return True
 
-    if await is_administrator(ctx):
+    if checks.has_guild_permissions(Permissions.KICK_MEMBERS, Permissions.BAN_MEMBERS)(ctx):
         return True
 
     with async_sql_session() as session:
@@ -26,9 +24,15 @@ async def is_moderator(ctx: context.Context) -> bool:
 
 @lightbulb.Check
 async def is_administrator(ctx: context.Context) -> bool:
-    author_id = ctx.author.id
+    author_id = ctx.member.id
 
     if author_id in await ctx.bot.fetch_owner_ids():
+        return True
+
+    if author_id == (await ctx.get_guild().fetch_owner()).id:
+        return True
+
+    if checks.has_guild_permissions(Permissions.MANAGE_GUILD, Permissions.ADMINISTRATOR)(ctx):
         return True
 
     with async_sql_session() as session:
