@@ -7,6 +7,7 @@ from lightbulb import commands, context
 from lightbulb.converters.special import RoleConverter
 from sqlalchemy import delete, select
 
+from remi.core.checks import is_administrator
 from remi.core.constant import Global
 from remi.db.schema import StaffRole
 from remi.db.util import async_sql_session
@@ -18,10 +19,8 @@ from remi.util.embed import (
 )
 from remi.util.typing import EmbedDict, EmbedField
 
-staff_role_plugin = lightbulb.Plugin(
-    "Staff Role",
-    description="Manage server's designated staff roles",
-)
+staff_role_plugin = lightbulb.Plugin("Staff Role", description="Manage server's designated staff roles")
+staff_role_plugin.add_checks(is_administrator)
 
 
 @staff_role_plugin.command
