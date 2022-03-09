@@ -1,10 +1,10 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import declarative_base
 
-Base = declarative_base()
+CoreBase = declarative_base()
 
 
-class ServerPrefix(Base):
+class ServerPrefix(CoreBase):
     __tablename__ = "server_prefix"
     id = Column(Integer, primary_key=True)
     guild_id = Column(Integer)
@@ -14,7 +14,7 @@ class ServerPrefix(Base):
         return f"StaffRole(id={self.id!r}, guild_id={self.guild_id!r}, prefix={self.prefix!r}"
 
 
-class StaffRole(Base):
+class StaffRole(CoreBase):
     __tablename__ = "staff_role"
 
     id = Column(Integer, primary_key=True)

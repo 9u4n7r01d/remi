@@ -1,1 +1,1 @@
-from .schema import Base
+from .schema import CoreBase
