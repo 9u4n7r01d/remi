@@ -20,7 +20,7 @@ prefix_manager.add_checks(lightbulb.checks.guild_only, remi.core.checks.is_admin
     description="The prefix to use for this server (max. 5 characters).",
     modifier=commands.OptionModifier.CONSUME_REST,
 )
-@lightbulb.command(name="setprefix", description="Set a custom prefix for this server.", inherit_checks=True)
+@lightbulb.command(name="setprefix", description="Set a custom prefix for this server.")
 @lightbulb.implements(*Global.command_implements)
 async def prefixman_setprefix(ctx: context.Context):
     """
@@ -40,7 +40,7 @@ async def prefixman_setprefix(ctx: context.Context):
 
 
 @prefix_manager.command
-@lightbulb.command(name="unsetprefix", description="Remove custom prefix for this server.", inherit_checks=True)
+@lightbulb.command(name="unsetprefix", description="Remove custom prefix for this server.")
 @lightbulb.implements(*Global.command_implements)
 async def prefixman_unsetprefix(ctx: context.Context):
     async with async_config_session() as session:
