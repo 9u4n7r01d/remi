@@ -3,8 +3,8 @@ from hikari.permissions import Permissions
 from lightbulb import checks, context
 from sqlalchemy import select
 
+from remi.db.engine import async_config_session
 from remi.db.schema.config import StaffRole
-from remi.db.util import async_config_session
 
 
 @lightbulb.Check

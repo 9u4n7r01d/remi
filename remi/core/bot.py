@@ -5,8 +5,12 @@ from sqlalchemy import select
 
 from remi.core.constant import Banner, Client
 from remi.core.help_command import HelpCommand
+from remi.db.engine import (
+    async_config_engine,
+    async_config_session,
+    dispose_all_engines,
+)
 from remi.db.schema.config import ConfigBase, ServerPrefix
-from remi.db.util import async_config_engine, async_config_session, dispose_all_engines
 
 # Banner
 _rprint(Banner.banner_text)

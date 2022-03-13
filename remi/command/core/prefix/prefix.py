@@ -5,8 +5,8 @@ from sqlalchemy import delete
 
 import remi.core.checks
 from remi.core.constant import Global
+from remi.db.engine import async_config_session
 from remi.db.schema.config import ServerPrefix
-from remi.db.util import async_config_session
 from remi.util.embed import create_success_embed
 
 prefix_manager = lightbulb.Plugin("Prefix Manager", description="Manage this server's prefix.")

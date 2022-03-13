@@ -9,8 +9,8 @@ from sqlalchemy import delete, select
 
 from remi.core.checks import is_administrator
 from remi.core.constant import Global
+from remi.db.engine import async_config_session
 from remi.db.schema.config import StaffRole
-from remi.db.util import async_config_session
 from remi.util.embed import (
     create_failure_embed,
     create_info_embed,
