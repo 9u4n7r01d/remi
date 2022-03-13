@@ -5,7 +5,7 @@ from sqlalchemy import delete
 
 import remi.core.checks
 from remi.core.constant import Global
-from remi.db.schema import ServerPrefix
+from remi.db.schema.config import ServerPrefix
 from remi.db.util import async_config_session
 from remi.util.embed import create_success_embed
 

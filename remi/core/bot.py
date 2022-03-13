@@ -5,8 +5,7 @@ from sqlalchemy import select
 
 from remi.core.constant import Banner, Client
 from remi.core.help_command import HelpCommand
-from remi.db import ConfigBase
-from remi.db.schema import ServerPrefix
+from remi.db.schema.config import ConfigBase, ServerPrefix
 from remi.db.util import async_config_engine, async_config_session, dispose_all_engines
 
 # Banner
