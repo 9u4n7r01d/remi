@@ -63,7 +63,8 @@ def is_dev_mode():
 class Global:
     command_implements: Final = (commands.SlashCommand, commands.PrefixCommand)
     group_implements: Final = (commands.SlashCommandGroup, commands.PrefixCommandGroup)
-    sub_implements: Final = (commands.SlashSubCommand, commands.PrefixSubCommand)
+    sub_command_implements: Final = (commands.SlashSubCommand, commands.PrefixSubCommand)
+    sub_group_implements: Final = (commands.SlashSubGroup, commands.PrefixSubGroup)
 
 
 @dataclass(frozen=True)

@@ -107,7 +107,7 @@ async def plg_man_handler(ctx: context.Context, operation: str):
     modifier=commands.OptionModifier.CONSUME_REST,
 )
 @lightbulb.command(name="load", description="Load a plugin.")
-@lightbulb.implements(*Global.sub_implements)
+@lightbulb.implements(*Global.sub_command_implements)
 async def plg_man_load(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "LOAD")
 
@@ -121,7 +121,7 @@ async def plg_man_load(ctx: context.Context) -> None:
     modifier=commands.OptionModifier.CONSUME_REST,
 )
 @lightbulb.command(name="unload", description="Unload a plugin.")
-@lightbulb.implements(*Global.sub_implements)
+@lightbulb.implements(*Global.sub_command_implements)
 async def plg_man_unload(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "UNLOAD")
 
@@ -135,14 +135,14 @@ async def plg_man_unload(ctx: context.Context) -> None:
     modifier=commands.OptionModifier.CONSUME_REST,
 )
 @lightbulb.command(name="reload", description="Reload a plugin.")
-@lightbulb.implements(*Global.sub_implements)
+@lightbulb.implements(*Global.sub_command_implements)
 async def plg_man_reload(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "RELOAD")
 
 
 @plg_man.child
 @lightbulb.command(name="list", description="List available plugins and status.")
-@lightbulb.implements(*Global.sub_implements)
+@lightbulb.implements(*Global.sub_command_implements)
 async def plg_man_list(ctx: context.Context) -> None:
     plugin_mapping_all = _get_all_plugin_info()
 
