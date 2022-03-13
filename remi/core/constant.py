@@ -23,36 +23,36 @@ def parse_owner_ids():
         return ()
 
 
-def get_config_path() -> Path:
+def get_data_path() -> Path:
     # Check for CONFIG_PATH's existence, default to current directory
-    if not (config_path_env_var := os.getenv("CONFIG_PATH")):
-        config_path = Path(".")
+    if not (data_path_env_var := os.getenv("DATA_PATH")):
+        data_path = Path(".")
         logging.warning(f"`CONFIG_PATH` not set. Defaulting to current directory.")
     else:
-        config_path = Path(config_path_env_var)
+        data_path = Path(data_path_env_var)
 
     # Convert CONFIG_PATH to absolute path
-    if not config_path.is_absolute():
-        config_path = config_path.absolute()
-        print(f"Do you want to use '{config_path}' to store config folder? (y/N): ", end="")
+    if not data_path.is_absolute():
+        data_path = data_path.absolute()
+        print(f"Do you want to use '{data_path}' to store bot's data? (y/N): ", end="")
 
         match input().lower():
             case "y":
-                logging.info(f"Using '{config_path}' as config folder")
-                logging.info(f"To suppress this message, set `CONFIG_PATH` to '{config_path}'")
+                logging.info(f"Using '{data_path}' as data folder.")
+                logging.info(f"To suppress this message, set `DATA_PATH` to '{data_path}'.")
             case _:
                 exit(1)
 
     # Create CONFIG_PATH
-    if not config_path.exists():
-        logging.info(f"Attempting to create {config_path!r}...")
+    if not data_path.exists():
+        logging.info(f"Attempting to create {data_path!r}...")
         try:
-            config_path.mkdir(parents=True, exist_ok=True)
+            data_path.mkdir(parents=True, exist_ok=True)
         except PermissionError:
-            logging.error(f"Insufficient permission to create {config_path!r}. Exiting...")
+            logging.error(f"Insufficient permission to create {data_path!r}. Exiting...")
             exit(1)
 
-    return config_path
+    return data_path
 
 
 def is_dev_mode():
@@ -72,7 +72,7 @@ class Client:
     token: Final[str] = os.getenv("TOKEN")
     prefix: Final[str] = os.getenv("BOT_PREFIX")
     owner_ids: Final[Tuple[int]] = parse_owner_ids()
-    config_path: Final[Path] = get_config_path()
+    data_path: Final[Path] = get_data_path()
     dev_mode: Final[bool] = is_dev_mode()
 
 

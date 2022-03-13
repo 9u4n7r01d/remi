@@ -8,7 +8,7 @@ async def dispose_all_engines():
     await async_config_engine.dispose()
 
 
-async_engine_scheme = f"sqlite+aiosqlite:///{Client.config_path}"
+async_engine_scheme = f"sqlite+aiosqlite:///{Client.data_path}"
 
 async_config_engine = create_async_engine(f"{async_engine_scheme}/config.sqlite", future=True)
 async_config_session = sessionmaker(
