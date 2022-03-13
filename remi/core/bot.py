@@ -5,7 +5,7 @@ from sqlalchemy import select
 
 from remi.core.constant import Banner, Client
 from remi.core.help_command import HelpCommand
-from remi.db import CoreBase
+from remi.db import ConfigBase
 from remi.db.schema import ServerPrefix
 from remi.db.util import async_config_engine, async_config_session, dispose_all_engines
 
@@ -37,7 +37,7 @@ bot = lightbulb.BotApp(
 @bot.listen(hikari.StartingEvent)
 async def on_starting(_) -> None:
     async with async_config_engine.begin() as conn:
-        await conn.run_sync(CoreBase.metadata.create_all)
+        await conn.run_sync(ConfigBase.metadata.create_all)
 
 
 @bot.listen(hikari.StoppingEvent)

@@ -1,1 +1,1 @@
-from .schema import CoreBase
+from .schema import ConfigBase
