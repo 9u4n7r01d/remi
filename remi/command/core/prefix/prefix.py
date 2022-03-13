@@ -6,7 +6,7 @@ from sqlalchemy import delete
 import remi.core.checks
 from remi.core.constant import Global
 from remi.db.schema import ServerPrefix
-from remi.db.util import async_sql_session
+from remi.db.util import async_config_session
 from remi.util.embed import create_success_embed
 
 prefix_manager = lightbulb.Plugin("Prefix Manager", description="Manage this server's prefix.")
@@ -30,7 +30,7 @@ async def prefixman_setprefix(ctx: context.Context):
     clamped_length = min(5, max(0, len(ctx.options.prefix)))
     prefix = ctx.options.prefix[:clamped_length].replace(" ", "")
 
-    async with async_sql_session() as session:
+    async with async_config_session() as session:
         entry = ServerPrefix(guild_id=ctx.guild_id, prefix=prefix)
 
         session.add(entry)
@@ -43,7 +43,7 @@ async def prefixman_setprefix(ctx: context.Context):
 @lightbulb.command(name="unsetprefix", description="Remove custom prefix for this server.", inherit_checks=True)
 @lightbulb.implements(*Global.command_implements)
 async def prefixman_unsetprefix(ctx: context.Context):
-    async with async_sql_session() as session:
+    async with async_config_session() as session:
         stmt = delete(ServerPrefix).where(ServerPrefix.guild_id == ctx.guild_id)
 
         await session.execute(stmt)

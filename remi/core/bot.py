@@ -7,7 +7,7 @@ from remi.core.constant import Banner, Client
 from remi.core.help_command import HelpCommand
 from remi.db import CoreBase
 from remi.db.schema import ServerPrefix
-from remi.db.util import async_engine, async_sql_session, dispose_all_engines
+from remi.db.util import async_config_engine, async_config_session, dispose_all_engines
 
 # Banner
 _rprint(Banner.banner_text)
@@ -15,7 +15,7 @@ _rprint(Banner.banner_text)
 
 # Prefix getter
 async def get_prefix(app: lightbulb.BotApp, message: hikari.Message) -> list[str]:
-    async with async_sql_session() as session:
+    async with async_config_session() as session:
         stmt = select(ServerPrefix.prefix).where(ServerPrefix.guild_id == message.guild_id)
         server_prefix = (await session.execute(stmt)).scalars().all()
 
@@ -36,7 +36,7 @@ bot = lightbulb.BotApp(
 # graceful construction and deconstruction, so it's better to have some scaffold in place beforehand
 @bot.listen(hikari.StartingEvent)
 async def on_starting(_) -> None:
-    async with async_engine.begin() as conn:
+    async with async_config_engine.begin() as conn:
         await conn.run_sync(CoreBase.metadata.create_all)
 
 

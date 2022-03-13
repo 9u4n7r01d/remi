@@ -4,7 +4,7 @@ from lightbulb import checks, context
 from sqlalchemy import select
 
 from remi.db.schema import StaffRole
-from remi.db.util import async_sql_session
+from remi.db.util import async_config_session
 
 
 @lightbulb.Check
@@ -15,7 +15,7 @@ async def is_moderator(ctx: context.Context) -> bool:
     if checks.has_guild_permissions(Permissions.KICK_MEMBERS, Permissions.BAN_MEMBERS)(ctx):
         return True
 
-    async with async_sql_session() as session:
+    async with async_config_session() as session:
         stmt = select(StaffRole.role_id).where(StaffRole.guild_id == ctx.guild_id).where(StaffRole.rank == "Moderator")
         query_result = (await session.execute(stmt)).scalars().all()
 
@@ -35,7 +35,7 @@ async def is_administrator(ctx: context.Context) -> bool:
     if checks.has_guild_permissions(Permissions.MANAGE_GUILD, Permissions.ADMINISTRATOR)(ctx):
         return True
 
-    async with async_sql_session() as session:
+    async with async_config_session() as session:
         stmt = (
             select(StaffRole.role_id).where(StaffRole.guild_id == ctx.guild_id).where(StaffRole.rank == "Administrator")
         )

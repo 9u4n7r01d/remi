@@ -10,7 +10,7 @@ from sqlalchemy import delete, select
 from remi.core.checks import is_administrator
 from remi.core.constant import Global
 from remi.db.schema import StaffRole
-from remi.db.util import async_sql_session
+from remi.db.util import async_config_session
 from remi.util.embed import (
     create_failure_embed,
     create_info_embed,
@@ -43,7 +43,7 @@ def _parse_rank(rank_arg: str) -> Union[str, None]:
 
 async def _is_in_db(rank: str, *role_ids: int) -> Iterable[int]:
     session: sqlalchemy.ext.asyncio.AsyncSession
-    async with async_sql_session() as session:
+    async with async_config_session() as session:
         stmt = select(StaffRole.role_id).where(StaffRole.role_id.in_(role_ids)).where(StaffRole.rank == rank)
         result = (await session.execute(stmt)).scalars().all()
 
@@ -77,7 +77,7 @@ async def staff_edit_handler(ctx: context.Context, remove=False):
         return
 
     operation_result = []
-    async with async_sql_session() as session:
+    async with async_config_session() as session:
         role_to_skip = await _is_in_db(rank, *[role.id for role in ctx.options.roles])
         if remove:
             role_to_skip = set(ctx.options.roles) - set(role_to_skip)  # Get roles NOT present in DB
@@ -147,7 +147,7 @@ async def staff_remove(ctx: context.Context):
 
 
 async def _query_role(ctx: context.Context, stmt: sqlalchemy.sql.Selectable) -> Iterable[str]:
-    async with async_sql_session() as session:
+    async with async_config_session() as session:
         result = (await session.execute(stmt)).scalars().all()
     return [(await RoleConverter(ctx).convert(str(role_id))).mention for role_id in result]
 
@@ -186,7 +186,7 @@ async def staff_list(ctx: context.Context):
 async def staff_reset(ctx: context.Context):
     stmt = delete(StaffRole).where(StaffRole.guild_id == ctx.guild_id)
 
-    async with async_sql_session() as session:
+    async with async_config_session() as session:
         await session.execute(stmt)
 
     await ctx.respond(embed=create_success_embed(title="Staff roles has been reset for this server!"))
