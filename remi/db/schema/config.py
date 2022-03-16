@@ -11,7 +11,7 @@ class ServerPrefix(ConfigBase):
     prefix = Column(String)
 
     def __repr__(self):
-        return f"StaffRole(id={self.id!r}, guild_id={self.guild_id!r}, prefix={self.prefix!r}"
+        return f"StaffRole(id={self.id!r}, guild_id={self.guild_id!r}, prefix={self.prefix!r})"
 
 
 class StaffRole(ConfigBase):
