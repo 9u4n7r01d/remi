@@ -45,7 +45,7 @@ async def _is_in_db(rank: str, *role_ids: int) -> Iterable[int]:
     session: sqlalchemy.ext.asyncio.AsyncSession
     async with async_config_session() as session:
         stmt = select(StaffRole.role_id).where(StaffRole.role_id.in_(role_ids)).where(StaffRole.rank == rank)
-        result = (await session.execute(stmt)).scalars().all()
+        result = await session.scalars(stmt)
 
     return result
 
@@ -148,7 +148,7 @@ async def staff_remove(ctx: context.Context):
 
 async def _query_role(ctx: context.Context, stmt: sqlalchemy.sql.Selectable) -> Iterable[str]:
     async with async_config_session() as session:
-        result = (await session.execute(stmt)).scalars().all()
+        result = await session.scalars(stmt)
     return [(await RoleConverter(ctx).convert(str(role_id))).mention for role_id in result]
 
 

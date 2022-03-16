@@ -20,7 +20,7 @@ _rprint(Banner.banner_text)
 async def get_prefix(app: lightbulb.BotApp, message: hikari.Message) -> list[str]:
     async with async_config_session() as session:
         stmt = select(ServerPrefix.prefix).where(ServerPrefix.guild_id == message.guild_id)
-        server_prefix = (await session.execute(stmt)).scalars().all()
+        server_prefix = (await session.scalars(stmt)).all()
 
     return server_prefix or Client.prefix
 

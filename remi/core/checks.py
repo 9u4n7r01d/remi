@@ -17,7 +17,8 @@ async def is_moderator(ctx: context.Context) -> bool:
 
     async with async_config_session() as session:
         stmt = select(StaffRole.role_id).where(StaffRole.guild_id == ctx.guild_id).where(StaffRole.rank == "Moderator")
-        query_result = (await session.execute(stmt)).scalars().all()
+
+        query_result = await session.scalars(stmt)
 
     return any([role in ctx.member.role_ids for role in query_result])
 
@@ -40,6 +41,6 @@ async def is_administrator(ctx: context.Context) -> bool:
             select(StaffRole.role_id).where(StaffRole.guild_id == ctx.guild_id).where(StaffRole.rank == "Administrator")
         )
 
-        query_result = (await session.execute(stmt)).scalars().all()
+        query_result = await session.scalars(stmt)
 
     return any([role in ctx.member.role_ids for role in query_result])
