@@ -20,7 +20,7 @@ async def is_moderator(ctx: context.Context) -> bool:
 
         query_result = await session.scalars(stmt)
 
-    return any([role in ctx.member.role_ids for role in query_result])
+    return not set(ctx.member.role_ids).isdisjoint(query_result)
 
 
 @lightbulb.Check
@@ -43,4 +43,4 @@ async def is_administrator(ctx: context.Context) -> bool:
 
         query_result = await session.scalars(stmt)
 
-    return any([role in ctx.member.role_ids for role in query_result])
+    return not set(ctx.member.role_ids).isdisjoint(query_result)
