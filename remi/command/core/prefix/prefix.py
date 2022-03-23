@@ -54,4 +54,4 @@ async def prefixman_unsetprefix(ctx: context.Context):
         await session.execute(stmt)
         await session.commit()
 
-    await ctx.respond(embed=create_success_embed(title=f"Prefix for your server has been reset!"))
+    await ctx.respond(embed=create_success_embed(title=f"Prefix for your server has been unset!"))
