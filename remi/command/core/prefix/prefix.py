@@ -31,8 +31,8 @@ async def prefixman_setprefix(ctx: context.Context):
     prefix = ctx.options.prefix[:clamped_length].replace(" ", "")
 
     async with async_config_session() as session:
-        prefix_query = select(ServerPrefix).where(ServerPrefix.guild_id == ctx.guild_id)
-        if config_entry := await session.scalars(prefix_query).one():
+        stmt = select(ServerPrefix).where(ServerPrefix.guild_id == ctx.guild_id)
+        if config_entry := await session.scalars(stmt).one():
             config_entry.prefix = prefix
         else:
             entry = ServerPrefix(guild_id=ctx.guild_id, prefix=prefix)
