@@ -32,7 +32,7 @@ def embed_test(include_timezone):
 
     # We run two tests: with timezone data and without
     if include_timezone:
-        timestamp = add_local_timezone(timestamp)
+        timestamp = _add_local_timezone(timestamp)
 
     # Create the embed and dictionary to prepare for fields
     embed_explicit = hikari.Embed(title=title, description=description, url=url, color=color, timestamp=timestamp)
