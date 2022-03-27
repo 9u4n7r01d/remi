@@ -101,8 +101,7 @@ async def staff_edit_handler(ctx: context.Context, remove=False):
                     operation_result.append(f"\N{WHITE HEAVY CHECK MARK} {role.mention} added as `{rank}`")
                     session.add(entry)
 
-        else:
-            await session.commit()
+        await session.commit()
 
     role_set_embed = EmbedDict(title="Result", description="\n".join(operation_result))
 
