@@ -7,7 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = ">=3.10, <3.11"
-hikari = {extras = ["speedups", "server"], version = "^2.0.0-alpha.104"}
+hikari = {extras = ["speedups", "server"], version = "^2.0.0.dev108"}
 hikari-lightbulb = "^2.2.1"
 uvloop = [{ version = "^0.16.0", platform = "linux" }]
 python-dotenv = "^0.20.0"
