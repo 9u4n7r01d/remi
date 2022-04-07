@@ -1,13 +1,13 @@
-import datetime
-from typing import Any, Iterable, Optional, TypedDict
-
-from hikari import colors, files
-
 """
 All classes are marked total=False so checkers won't raise warnings for incomplete initialization,
 because these are ultimately for type hinting around a wrapper for hikari.Embed() and its various
 .set() methods that supply their own default values for keys marked with Optional types.
 """
+
+import datetime
+from typing import Any, Iterable, Optional, TypedDict
+
+from hikari import colors, files
 
 
 class EmbedAuthor(TypedDict, total=False):

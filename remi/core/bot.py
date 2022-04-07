@@ -22,16 +22,16 @@ async def get_prefix(app: lightbulb.BotApp, message: hikari.Message) -> list[str
         stmt = select(ServerPrefix.prefix).where(ServerPrefix.guild_id == message.guild_id)
         server_prefix = (await session.scalars(stmt)).all()
 
-    return server_prefix or Client.prefix
+    return server_prefix or Client.PREFIX
 
 
 # Get our bot instance
 bot = lightbulb.BotApp(
-    token=Client.token,
+    token=Client.TOKEN,
     prefix=lightbulb.app.when_mentioned_or(get_prefix),
     banner=None,
     help_class=HelpCommand,
-    owner_ids=Client.owner_ids,
+    owner_ids=Client.OWNER_IDS,
 )
 
 

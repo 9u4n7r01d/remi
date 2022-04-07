@@ -14,7 +14,7 @@ def load(bot: lightbulb.BotApp) -> None:
 
 
 def unload(bot: lightbulb.BotApp) -> None:
-    if Client.dev_mode:
+    if Client.DEV_MODE:
         bot.remove_plugin(staff_role_plugin)
     else:
         raise ProtectedPlugin(f"Cannot unload protected plugin `{staff_role_plugin.name}`!")

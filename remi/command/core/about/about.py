@@ -15,13 +15,13 @@ about = lightbulb.Plugin("About", description="Information about Remi.")
 def _get_owner(ctx: context.Context):
     if team := ctx.bot.application.team:
         return f"Team {team.name}"
-    else:
-        return str(ctx.bot.application.owner)
+
+    return str(ctx.bot.application.owner)
 
 
 @about.command
 @lightbulb.command(name="about", description="About the bot.")
-@lightbulb.implements(*Global.command_implements)
+@lightbulb.implements(*Global.COMMAND_IMPLEMENTS)
 async def core_about(ctx: context.Context):
     owner = _get_owner(ctx)
     author = "https://github.com/PythonTryHard"
@@ -53,7 +53,7 @@ async def core_about(ctx: context.Context):
                     ),
                 ),
             ],
-            footer={"text": f"Made with <3"},
+            footer={"text": "Made with <3"},
             thumbnail=ctx.bot.get_me().avatar_url,
         )
     )

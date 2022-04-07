@@ -21,7 +21,7 @@ prefix_manager.add_checks(lightbulb.checks.guild_only, remi.core.checks.is_admin
     modifier=commands.OptionModifier.CONSUME_REST,
 )
 @lightbulb.command(name="setprefix", description="Set a custom prefix for this server.")
-@lightbulb.implements(*Global.command_implements)
+@lightbulb.implements(*Global.COMMAND_IMPLEMENTS)
 async def prefixman_setprefix(ctx: context.Context):
     """
     \N{BULLET} If supplied prefix is long than 5, the first 5 characters will be used.
@@ -45,7 +45,7 @@ async def prefixman_setprefix(ctx: context.Context):
 
 @prefix_manager.command
 @lightbulb.command(name="unsetprefix", description="Remove custom prefix for this server.")
-@lightbulb.implements(*Global.command_implements)
+@lightbulb.implements(*Global.COMMAND_IMPLEMENTS)
 async def prefixman_unsetprefix(ctx: context.Context):
     async with async_config_session() as session:
         stmt = delete(ServerPrefix).where(ServerPrefix.guild_id == ctx.guild_id)
@@ -53,4 +53,4 @@ async def prefixman_unsetprefix(ctx: context.Context):
         await session.execute(stmt)
         await session.commit()
 
-    await ctx.respond(embed=create_success_embed(title=f"Prefix for your server has been unset!"))
+    await ctx.respond(embed=create_success_embed(title="Prefix for your server has been unset!"))

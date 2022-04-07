@@ -1,3 +1,4 @@
+# pylint: disable=arguments-renamed
 from typing import Union
 
 import hikari
@@ -73,8 +74,8 @@ class HelpCommand(lightbulb.BaseHelpCommand):
         else:
             plugins_ = [plugin]
 
-        for plugin in plugins_:
-            [help_embed.add_line(line) for line in await self._gather_command_helps(plugin, ctx)]
+        for plg in plugins_:
+            [help_embed.add_line(line) for line in await self._gather_command_helps(plg, ctx)]
 
         navigator = ButtonNavigator(help_embed.build_pages())
         await navigator.run(ctx)

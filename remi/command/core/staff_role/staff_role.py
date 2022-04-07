@@ -25,7 +25,7 @@ staff_role_plugin.add_checks(lightbulb.checks.guild_only, remi.core.checks.is_ad
 
 @staff_role_plugin.command
 @lightbulb.command(name="staff", description="Manage this server's staff roles.")
-@lightbulb.implements(*Global.group_implements)
+@lightbulb.implements(*Global.GROUP_IMPLEMENTS)
 async def staff_command(ctx: context.Context):
     pass
 
@@ -124,7 +124,7 @@ async def staff_edit_handler(ctx: context.Context, remove=False):
 )
 @lightbulb.option(name="rank", description="The equivalent rank to set rank(s) to.", required=True)
 @lightbulb.command(name="set", description="Set a role to be equivalent to moderator/administrator.")
-@lightbulb.implements(*Global.sub_command_implements)
+@lightbulb.implements(*Global.SUB_COMMAND_IMPLEMENTS)
 async def staff_set(ctx: context.Context):
     await staff_edit_handler(ctx, remove=False)
 
@@ -140,7 +140,7 @@ async def staff_set(ctx: context.Context):
 )
 @lightbulb.option(name="rank", description="The equivalent rank to set rank(s) to.", required=True)
 @lightbulb.command(name="remove", description="Remove a role from being equivalent to moderator/administrator.")
-@lightbulb.implements(*Global.sub_command_implements)
+@lightbulb.implements(*Global.SUB_COMMAND_IMPLEMENTS)
 async def staff_remove(ctx: context.Context):
     await staff_edit_handler(ctx, remove=True)
 
@@ -153,7 +153,7 @@ async def _query_role(ctx: context.Context, stmt: sqlalchemy.sql.Selectable) -> 
 
 @staff_command.child
 @lightbulb.command(name="info", description="List out current server's rank settings.")
-@lightbulb.implements(*Global.sub_command_implements)
+@lightbulb.implements(*Global.SUB_COMMAND_IMPLEMENTS)
 async def staff_list(ctx: context.Context):
     base_stmt = select(StaffRole.role_id).where(StaffRole.guild_id == ctx.guild_id)
     select_moderator = base_stmt.where(StaffRole.rank == "Moderator")
@@ -181,7 +181,7 @@ async def staff_list(ctx: context.Context):
 
 @staff_command.child
 @lightbulb.command(name="reset", description="Reset server's staff.")
-@lightbulb.implements(*Global.sub_command_implements)
+@lightbulb.implements(*Global.SUB_COMMAND_IMPLEMENTS)
 async def staff_reset(ctx: context.Context):
     stmt = delete(StaffRole).where(StaffRole.guild_id == ctx.guild_id)
 

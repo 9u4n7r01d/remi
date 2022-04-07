@@ -1,11 +1,12 @@
+# pylint: disable=logging-fstring-interpolation, invalid-name
 import logging
 import os
 import string
+import sys
 from dataclasses import dataclass
 from importlib import resources
 from pathlib import Path
 from platform import machine, python_version, release, system
-from sys import exit
 from typing import Final, Tuple
 
 import hikari
@@ -27,7 +28,7 @@ def get_data_path() -> Path:
     # Check for CONFIG_PATH's existence, default to current directory
     if not (data_path_env_var := os.getenv("DATA_PATH")):
         data_path = Path(".")
-        logging.warning(f"`CONFIG_PATH` not set. Defaulting to current directory.")
+        logging.warning("`CONFIG_PATH` not set. Defaulting to current directory.")
     else:
         data_path = Path(data_path_env_var)
 
@@ -41,7 +42,7 @@ def get_data_path() -> Path:
                 logging.info(f"Using '{data_path}' as data folder.")
                 logging.info(f"To suppress this message, set `DATA_PATH` to '{data_path}'.")
             case _:
-                exit(1)
+                sys.exit(1)
 
     # Create CONFIG_PATH
     if not data_path.exists():
@@ -50,30 +51,30 @@ def get_data_path() -> Path:
             data_path.mkdir(parents=True, exist_ok=True)
         except PermissionError:
             logging.error(f"Insufficient permission to create {data_path!r}. Exiting...")
-            exit(1)
+            sys.exit(1)
 
     return data_path
 
 
-def is_dev_mode():
-    return bool(os.getenv("REMI_DEVMODE", default=False))
+def is_dev_mode() -> bool:
+    return bool(os.getenv("REMI_DEVMODE", default=""))
 
 
 @dataclass(frozen=True)
 class Global:
-    command_implements: Final = (commands.SlashCommand, commands.PrefixCommand)
-    group_implements: Final = (commands.SlashCommandGroup, commands.PrefixCommandGroup)
-    sub_command_implements: Final = (commands.SlashSubCommand, commands.PrefixSubCommand)
-    sub_group_implements: Final = (commands.SlashSubGroup, commands.PrefixSubGroup)
+    COMMAND_IMPLEMENTS: Final = (commands.SlashCommand, commands.PrefixCommand)
+    GROUP_IMPLEMENTS: Final = (commands.SlashCommandGroup, commands.PrefixCommandGroup)
+    SUB_COMMAND_IMPLEMENTS: Final = (commands.SlashSubCommand, commands.PrefixSubCommand)
+    SUB_GROUP_IMPLEMENTS: Final = (commands.SlashSubGroup, commands.PrefixSubGroup)
 
 
 @dataclass(frozen=True)
 class Client:
-    token: Final[str] = os.getenv("TOKEN")
-    prefix: Final[str] = os.getenv("BOT_PREFIX")
-    owner_ids: Final[Tuple[int]] = parse_owner_ids()
-    data_path: Final[Path] = get_data_path()
-    dev_mode: Final[bool] = is_dev_mode()
+    TOKEN: Final[str] = os.getenv("TOKEN")
+    PREFIX: Final[str] = os.getenv("BOT_PREFIX")
+    OWNER_IDS: Final[Tuple[int]] = parse_owner_ids()
+    DATA_PATH: Final[Path] = get_data_path()
+    DEV_MODE: Final[bool] = is_dev_mode()
 
 
 class Banner:

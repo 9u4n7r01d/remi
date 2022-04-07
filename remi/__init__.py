@@ -1,5 +1,5 @@
-__name__ = "remi"
-__version__ = "0.1.0"
+__name__ = "remi"  # pylint: disable=redefined-builtin
+__version__ = "0.0.3"
 
 import logging as _logging
 import os as _os
@@ -41,11 +41,11 @@ class _InterceptHandler(_logging.Handler):
 @_click.option("--dev", help="Enable developer mode.", is_flag=True)
 @_click.option("--log-sql", help="Enable logging of SQL.", is_flag=True)
 @_click.pass_context
-def get_click_context(ctx, *args, **kwargs):
+def cb_get_click_context(ctx, *args, **kwargs):  # Callback
     return ctx
 
 
-_ctx = get_click_context(standalone_mode=False)
+_ctx = cb_get_click_context(standalone_mode=False)  # pylint: disable=no-value-for-parameter
 
 if not _ctx:  # If we're calling with --help, get_context() will return 0
     _sys.exit(0)
@@ -54,42 +54,42 @@ if not _ctx:  # If we're calling with --help, get_context() will return 0
 # Mapping for logging level
 match _ctx.params["verbose"]:
     case 0:
-        _logging_level = 20  # INFO
-        _loguru_level_padding = 8
+        _LOGGING_LEVEL = 20  # INFO
+        _LOGURU_LEVEL_PADDING = 8
     case 1:
-        _logging_level = 10  # DEBUG
-        _loguru_level_padding = 8
+        _LOGGING_LEVEL = 10  # DEBUG
+        _LOGURU_LEVEL_PADDING = 8
     case 2:
-        _logging_level = 5  # TRACE_HIKARI
-        _loguru_level_padding = 12
+        _LOGGING_LEVEL = 5  # TRACE_HIKARI
+        _LOGURU_LEVEL_PADDING = 12
     case _:
-        _logging_level = 0  # NOTSET
-        _loguru_level_padding = 12
+        _LOGGING_LEVEL = 0  # NOTSET
+        _LOGURU_LEVEL_PADDING = 12
 
 # Remove the default handler and replace it with our customizable one
 _logger.remove()
 
 _log_format = (
     "<g>{time:YYYY-MM-DD HH:mm:ss.SSS}</> | "
-    f"<lvl>{{level: <{_loguru_level_padding}}}</> | "
+    f"<lvl>{{level: <{_LOGURU_LEVEL_PADDING}}}</> | "
     "<c>{name}</>:<c>{function}</>:<c>{line}</> - <lvl>{message}</>"
 )
 
 # Loguru handlers
-_logger.add(_sys.stderr, format=_log_format, level=_logging_level)
+_logger.add(_sys.stderr, format=_log_format, level=_LOGGING_LEVEL)
 
 if _ctx.params["file"]:
-    _logger.add("remi.log", rotation="00:00", format=_log_format, level=_logging_level)
+    _logger.add("remi.log", rotation="00:00", format=_log_format, level=_LOGGING_LEVEL)
 
 # Custom levels for loguru
 _logger.level(name="TRACE_HIKARI", no=5, color="<m><b>")
 
 # Start logging
-_logging.basicConfig(handlers=[_InterceptHandler()], level=_logging_level)
+_logging.basicConfig(handlers=[_InterceptHandler()], level=_LOGGING_LEVEL)
 
 # Set up certain logging handler of interest as needed
 if _ctx.params["log_sql"]:
-    _logging.getLogger("sqlalchemy").setLevel(_logging_level)
+    _logging.getLogger("sqlalchemy").setLevel(_LOGGING_LEVEL)
 
 # Development mode-related configuration
 if _ctx.params["dev"]:
