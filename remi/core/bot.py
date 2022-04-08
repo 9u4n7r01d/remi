@@ -3,6 +3,7 @@ import lightbulb
 from rich import print as _rprint
 from sqlalchemy import select
 
+from remi.command.core.prefix import build_prefix_cache
 from remi.core.constant import Banner, Client
 from remi.core.help_command import HelpCommand
 from remi.db.engine import (
@@ -18,7 +19,7 @@ _rprint(Banner.banner_text)
 
 # Prefix getter
 async def get_prefix(app: lightbulb.BotApp, message: hikari.Message) -> list[str]:
-    return app.d.prefix_cache.get(message.guild_id, default=Client.PREFIX)
+    return app.d.prefix_cache.get(message.guild_id, Client.PREFIX)
 
 
 # Get our bot instance
@@ -37,6 +38,8 @@ bot = lightbulb.BotApp(
 async def on_starting(_) -> None:
     async with async_config_engine.begin() as conn:
         await conn.run_sync(ConfigBase.metadata.create_all)
+
+    await build_prefix_cache(bot)
 
 
 @bot.listen(hikari.StoppingEvent)
