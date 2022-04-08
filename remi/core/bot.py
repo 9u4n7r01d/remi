@@ -18,11 +18,7 @@ _rprint(Banner.banner_text)
 
 # Prefix getter
 async def get_prefix(app: lightbulb.BotApp, message: hikari.Message) -> list[str]:
-    async with async_config_session() as session:
-        stmt = select(ServerPrefix.prefix).where(ServerPrefix.guild_id == message.guild_id)
-        server_prefix = (await session.scalars(stmt)).all()
-
-    return server_prefix or Client.PREFIX
+    return app.d.prefix_cache.get(message.guild_id, default=Client.PREFIX)
 
 
 # Get our bot instance

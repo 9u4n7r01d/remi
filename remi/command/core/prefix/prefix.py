@@ -40,6 +40,8 @@ async def prefixman_setprefix(ctx: context.Context):
 
         await session.commit()
 
+        ctx.bot.d.prefix_cache[ctx.guild_id] = prefix
+
     await ctx.respond(embed=create_success_embed(title=f"Prefix for your server has been set to `{prefix}`!"))
 
 
@@ -52,5 +54,10 @@ async def prefixman_unsetprefix(ctx: context.Context):
 
         await session.execute(stmt)
         await session.commit()
+
+        try:
+            del ctx.bot.d.prefix_cache[ctx.guild_id]
+        except KeyError:
+            pass
 
     await ctx.respond(embed=create_success_embed(title="Prefix for your server has been unset!"))
