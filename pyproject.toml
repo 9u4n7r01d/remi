@@ -29,6 +29,7 @@ isort = "^5.10.1"
 memory-profiler = "^0.60.0"
 matplotlib = "^3.5.1"
 cookiecutter = "^1.7.3"
+bpython = "^0.22.1"
 
 [tool.poetry.scripts]
 remi = 'remi:__main__.main'
