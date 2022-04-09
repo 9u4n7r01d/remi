@@ -1,4 +1,3 @@
-import hikari
 import lightbulb
 from lightbulb import context
 

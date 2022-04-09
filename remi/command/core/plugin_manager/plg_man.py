@@ -2,7 +2,6 @@ import sys
 from functools import partial
 from importlib import reload
 
-import hikari
 import lightbulb
 from lightbulb import commands, context
 
