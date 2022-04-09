@@ -12,7 +12,7 @@ async def dispose_all_engines():
 ASYNC_ENGINE_SCHEMA = f"sqlite+aiosqlite:///{Client.DATA_PATH}"
 
 
-def create_engine(db_filename: str) -> [sqlalchemy.ext.asyncio.AsyncEngine, sqlalchemy.orm.sessionmaker]:
+def create_engine(db_filename: str) -> tuple[sqlalchemy.ext.asyncio.AsyncEngine, sqlalchemy.orm.sessionmaker]:
     async_engine = create_async_engine(f"{ASYNC_ENGINE_SCHEMA}/{db_filename}", future=True)
     async_session_maker = sessionmaker(
         async_engine,

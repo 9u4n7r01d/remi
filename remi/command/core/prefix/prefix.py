@@ -7,6 +7,7 @@ import remi.core.checks
 from remi.core.constant import Global
 from remi.db.engine import async_config_session
 from remi.db.schema.config import ServerPrefix
+from remi.db.util import _unique_insert
 from remi.util.embed import create_success_embed
 
 prefix_manager = lightbulb.Plugin("Prefix Manager", description="Manage this server's prefix.")
@@ -37,14 +38,10 @@ async def prefixman_setprefix(ctx: context.Context):
     clamped_length = min(5, max(0, len(ctx.options.prefix)))
     prefix = ctx.options.prefix[:clamped_length].replace(" ", "")
 
-    async with async_config_session() as session:
-        stmt = select(ServerPrefix).where(ServerPrefix.guild_id == ctx.guild_id)
-        if config_entry := await session.scalars(stmt).one():
-            config_entry.prefix = prefix
-        else:
-            entry = ServerPrefix(guild_id=ctx.guild_id, prefix=prefix)
-            session.add(entry)
+    entry = ServerPrefix(guild_id=ctx.guild_id, prefix=prefix)
 
+    async with async_config_session() as session:
+        await _unique_insert(entry, session)
         await session.commit()
 
         ctx.bot.d.prefix_cache[ctx.guild_id] = prefix

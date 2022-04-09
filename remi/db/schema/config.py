@@ -7,7 +7,7 @@ ConfigBase = declarative_base()
 class ServerPrefix(ConfigBase):
     __tablename__ = "server_prefix"
     id = Column(Integer, primary_key=True)
-    guild_id = Column(Integer)
+    guild_id = Column(Integer, unique=True)
     prefix = Column(String)
 
     def __repr__(self):
