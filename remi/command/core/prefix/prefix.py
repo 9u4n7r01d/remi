@@ -1,3 +1,5 @@
+import logging
+
 import hikari
 import lightbulb
 from lightbulb import commands, context
@@ -14,11 +16,13 @@ prefix_manager = lightbulb.Plugin("Prefix Manager", description="Manage this ser
 prefix_manager.add_checks(lightbulb.checks.guild_only, remi.core.checks.is_administrator)
 
 
-async def build_prefix_cache(bot: lightbulb.BotApp):
+@prefix_manager.listener(hikari.StartingEvent)
+async def build_prefix_cache(_: hikari.StartingEvent):
+    logging.info("Building prefix cache...")
     async with async_config_session() as session:
         stmt = select((ServerPrefix.guild_id, ServerPrefix.prefix))
         prefix_mapping = dict((await session.execute(stmt)).all())
-        bot.d.prefix_cache = prefix_mapping
+        prefix_manager.app.d.prefix_cache = prefix_mapping
 
 
 @prefix_manager.command

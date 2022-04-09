@@ -1,17 +1,11 @@
 import hikari
 import lightbulb
 from rich import print as _rprint
-from sqlalchemy import select
 
-from remi.command.core.prefix import build_prefix_cache
 from remi.core.constant import Banner, Client
 from remi.core.help_command import HelpCommand
-from remi.db.engine import (
-    async_config_engine,
-    async_config_session,
-    dispose_all_engines,
-)
-from remi.db.schema.config import ConfigBase, ServerPrefix
+from remi.db.engine import async_config_engine, dispose_all_engines
+from remi.db.schema.config import ConfigBase
 
 # Banner
 _rprint(Banner.banner_text)
@@ -38,8 +32,6 @@ bot = lightbulb.BotApp(
 async def on_starting(_) -> None:
     async with async_config_engine.begin() as conn:
         await conn.run_sync(ConfigBase.metadata.create_all)
-
-    await build_prefix_cache(bot)
 
 
 @bot.listen(hikari.StoppingEvent)
