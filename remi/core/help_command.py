@@ -93,7 +93,7 @@ class HelpCommand(lightbulb.BaseHelpCommand):
                 "title": f"Help for `{command.qualname}`",
                 "description": f"*{command.description}*",
                 "color": self.EMBED_COLOR,
-                "footer": {"text": "Auto-generated"},
+                "footer": {"text": "Auto-generated, `[p]` is your bot's prefix"},
                 "thumbnail": Resource.HELP_ICON,
                 "fields": [
                     {
