@@ -37,7 +37,7 @@ async def build_prefix_cache(_: hikari.StartingEvent):
 async def prefixman_setprefix(ctx: context.Context):
     """
     \N{BULLET} If supplied prefix is long than 5, the first 5 characters will be used.
-    \N{BULLET} Any space character will be removed
+    \N{BULLET} Any space character will be removed.
     """
     clamped_length = min(5, max(0, len(ctx.options.prefix)))
     prefix = ctx.options.prefix[:clamped_length].replace(" ", "")
