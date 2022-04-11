@@ -60,13 +60,6 @@ async def on_cog_command_error(event: lightbulb.CommandErrorEvent) -> bool:
     return True
 
 
-@plugin_manager.command
-@lightbulb.command(name="plugin", description="Manage hot-(un)loading of plugins.")
-@lightbulb.implements(*Global.GROUP_IMPLEMENTS)
-async def plg_man(ctx: context.Context) -> None:
-    pass
-
-
 async def plg_man_handler(ctx: context.Context, operation: str):
     """Handler for all plugin-related operation"""
     target_plugin = ctx.options.plugin
@@ -97,7 +90,7 @@ async def plg_man_handler(ctx: context.Context, operation: str):
     await ctx.respond(embed=load_status_embed)
 
 
-@plg_man.child
+@plugin_manager.command
 @lightbulb.option(
     name="plugin",
     description="The name of the plugin to load.",
@@ -106,12 +99,12 @@ async def plg_man_handler(ctx: context.Context, operation: str):
     modifier=commands.OptionModifier.CONSUME_REST,
 )
 @lightbulb.command(name="load", description="Load a plugin.")
-@lightbulb.implements(*Global.SUB_COMMAND_IMPLEMENTS)
+@lightbulb.implements(*Global.COMMAND_IMPLEMENTS)
 async def plg_man_load(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "LOAD")
 
 
-@plg_man.child
+@plugin_manager.command
 @lightbulb.option(
     name="plugin",
     description="The name of the plugin to load.",
@@ -120,12 +113,12 @@ async def plg_man_load(ctx: context.Context) -> None:
     modifier=commands.OptionModifier.CONSUME_REST,
 )
 @lightbulb.command(name="unload", description="Unload a plugin.")
-@lightbulb.implements(*Global.SUB_COMMAND_IMPLEMENTS)
+@lightbulb.implements(*Global.COMMAND_IMPLEMENTS)
 async def plg_man_unload(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "UNLOAD")
 
 
-@plg_man.child
+@plugin_manager.command
 @lightbulb.option(
     name="plugin",
     description="The name of the plugin to load.",
@@ -134,14 +127,14 @@ async def plg_man_unload(ctx: context.Context) -> None:
     modifier=commands.OptionModifier.CONSUME_REST,
 )
 @lightbulb.command(name="reload", description="Reload a plugin.")
-@lightbulb.implements(*Global.SUB_COMMAND_IMPLEMENTS)
+@lightbulb.implements(*Global.COMMAND_IMPLEMENTS)
 async def plg_man_reload(ctx: context.Context) -> None:
     await plg_man_handler(ctx, "RELOAD")
 
 
-@plg_man.child
-@lightbulb.command(name="list", description="List available plugins and status.")
-@lightbulb.implements(*Global.SUB_COMMAND_IMPLEMENTS)
+@plugin_manager.command
+@lightbulb.command(name="plugins", description="List available plugins and status.")
+@lightbulb.implements(*Global.COMMAND_IMPLEMENTS)
 async def plg_man_list(ctx: context.Context) -> None:
     plugin_mapping_all = _get_all_plugin_info()
 
