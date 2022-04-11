@@ -39,7 +39,7 @@ class HelpCommand(lightbulb.BaseHelpCommand):
             unique_commands.add(help_line)
 
         # Prepare the help lines for EmbedPaginator.add_line()
-        help_lines = list(unique_commands)
+        help_lines = sorted(unique_commands)
         help_lines.insert(0, f"__**{plugin.name}** - *{plugin.description}*__")
         help_lines.append("")
 
@@ -74,7 +74,7 @@ class HelpCommand(lightbulb.BaseHelpCommand):
         else:
             plugins_ = [plugin]
 
-        for plg in plugins_:
+        for plg in sorted(plugins_, key=lambda x: x.name):
             [help_embed.add_line(line) for line in await self._gather_command_helps(plg, ctx)]
 
         navigator = ButtonNavigator(help_embed.build_pages())
