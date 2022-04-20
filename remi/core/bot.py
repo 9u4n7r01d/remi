@@ -1,3 +1,5 @@
+import logging
+
 import hikari
 import lightbulb
 from rich import print as _rprint
@@ -42,6 +44,17 @@ async def on_stopping(_) -> None:
 @bot.listen(hikari.StartedEvent)
 async def on_started(_) -> None:
     pass
+
+
+# Global exception handler
+@bot.listen(lightbulb.CommandErrorEvent)
+async def on_error(event: lightbulb.CommandErrorEvent):
+    # Unpack the event for the exception
+    exception = event.exception or event.exception.__cause__
+
+    match exception:
+        case (lightbulb.CheckFailure(), lightbulb.CommandNotFound()):
+            logging.debug(exception.args[0])
 
 
 # Load these by default
