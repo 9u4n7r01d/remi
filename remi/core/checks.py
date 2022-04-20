@@ -44,3 +44,11 @@ async def is_administrator(ctx: context.Context) -> bool:
         query_result = await session.scalars(stmt)
 
     return not set(ctx.member.role_ids).isdisjoint(query_result)
+
+
+def limit_to_guild(guild_id: int):
+    @lightbulb.Check
+    async def check_if_match_guild(ctx: context.Context):
+        return ctx.guild_id == guild_id
+
+    return check_if_match_guild
