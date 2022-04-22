@@ -23,6 +23,7 @@ bot = lightbulb.BotApp(
     banner=None,
     help_class=HelpCommand,
     owner_ids=Client.OWNER_IDS,
+    intents=hikari.intents.Intents.ALL,
 )
 
 
