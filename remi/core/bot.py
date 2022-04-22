@@ -55,6 +55,7 @@ async def on_error(event: lightbulb.CommandErrorEvent):
     match exception:
         case (lightbulb.CheckFailure(), lightbulb.CommandNotFound()):
             logging.debug(exception.args[0])
+            return True
 
 
 # Load these by default
