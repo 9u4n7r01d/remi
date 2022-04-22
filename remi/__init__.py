@@ -4,6 +4,7 @@ __version__ = "0.0.3"
 import logging as _logging
 import os as _os
 import sys as _sys
+import warnings as _warnings
 
 import click as _click
 from dotenv import load_dotenv
@@ -77,6 +78,13 @@ _log_format = (
 
 # Loguru handlers
 _logger.add(_sys.stderr, format=_log_format, level=_LOGGING_LEVEL)
+
+
+def warning_interceptor(message, *args, **kwargs):
+    _logger.warning(f"{args[0].__name__} (from {args[1]}): {message}")
+
+
+_warnings.showwarning = warning_interceptor
 
 if _ctx.params["file"]:
     _logger.add("remi.log", rotation="00:00", format=_log_format, level=_LOGGING_LEVEL)
