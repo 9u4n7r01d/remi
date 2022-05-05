@@ -27,7 +27,7 @@ pytest = "^7.1.2"
 pytest-repeat = "^0.9.1"
 isort = "^5.10.1"
 memory-profiler = "^0.60.0"
-matplotlib = "^3.5.1"
+matplotlib = "^3.5.2"
 cookiecutter = "^1.7.3"
 bpython = "^0.22.1"
 
