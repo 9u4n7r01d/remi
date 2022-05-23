@@ -945,7 +945,7 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<5)"]
 
 [[package]]
 name = "rich"
-version = "12.3.0"
+version = "12.4.3"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 category = "main"
 optional = false
@@ -1170,7 +1170,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10, <3.11"
-content-hash = "b1e76f3a0712a5dfb9db2d7f587d63f37251c19c1df5916a87982c3f08ccf908"
+content-hash = "0239e864ad9d3995c6e6fb8fa37d85dd490e374b61562e5d8663acf474b2d5be"
 
 [metadata.files]
 aiodns = [
@@ -2214,8 +2214,8 @@ requests = [
     {file = "requests-2.27.1.tar.gz", hash = "sha256:68d7c56fd5a8999887728ef304a6d12edc7be74f1cfa47714fc8b414525c9a61"},
 ]
 rich = [
-    {file = "rich-12.3.0-py3-none-any.whl", hash = "sha256:0eb63013630c6ee1237e0e395d51cb23513de6b5531235e33889e8842bdf3a6f"},
-    {file = "rich-12.3.0.tar.gz", hash = "sha256:7e8700cda776337036a712ff0495b04052fb5f957c7dfb8df997f88350044b64"},
+    {file = "rich-12.4.3-py3-none-any.whl", hash = "sha256:26ef784599a9ab905ade34ff28904e4fbe9bce16e02c33c78b0229551104c146"},
+    {file = "rich-12.4.3.tar.gz", hash = "sha256:e7550ca19aec51b216ae4c34bfce82e94a0c79bdbf95cafbf42f343d0fb3f45a"},
 ]
 setuptools-scm = [
     {file = "setuptools_scm-6.4.2-py3-none-any.whl", hash = "sha256:acea13255093849de7ccb11af9e1fb8bde7067783450cee9ef7a93139bddf6d4"},
