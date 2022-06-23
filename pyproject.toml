@@ -13,7 +13,7 @@ uvloop = [{ version = "^0.16.0", platform = "linux" }]
 python-dotenv = "^0.20.0"
 tzlocal = "^4.2"
 loguru = "^0.6.0"
-SQLAlchemy = "^1.4.36"
+SQLAlchemy = "^1.4.38"
 aiosqlite = "^0.17.0"
 rich = "^12.4.4"
 click = "^8.1.3"
