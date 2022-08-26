@@ -1,3 +1,5 @@
+## Notice: This repo is archived pending a rewrite and re-speccing.
+
 <div align="center">
 
 <img src="https://cdn.discordapp.com/avatars/915949859679371285/b121cd5ce21e025c0c2e785703e50df7.png"><br>
